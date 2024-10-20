@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @ToString
 @AllArgsConstructor
-@Slf4j
 
 public class Customer {
     private String id;

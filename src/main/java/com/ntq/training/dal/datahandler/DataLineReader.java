@@ -1,13 +1,15 @@
-package com.ntq.training.infra.util;
+package com.ntq.training.dal.datahandler;
 
 import com.ntq.training.dal.entity.Customer;
 import com.ntq.training.dal.entity.Order;
 import com.ntq.training.dal.entity.Product;
 import com.ntq.training.infra.constants.FileReaderConstants;
+import com.ntq.training.infra.validator.ProductValidator;
 
+import java.util.List;
 import java.util.function.Function;
 
-public class DataLineReaderHelper {
+public class DataLineReader {
 
     public static Function<String, Product> mapToProduct = (line) -> {
         String[] fields = line.split(FileReaderConstants.CSV_LINE_SEPARATOR);
@@ -15,7 +17,14 @@ public class DataLineReaderHelper {
         String productName = fields[FileReaderConstants.ProductField.PRODUCT_NAME.getIndex()];
         Double productPrice = Double.parseDouble(fields[FileReaderConstants.ProductField.PRODUCT_PRICE.getIndex()]);
         Integer productStockAvailable = Integer.parseInt(fields[FileReaderConstants.ProductField.PRODUCT_STOCK_AVAILABLE.getIndex()]);
-        return new Product(productId, productName, productPrice, productStockAvailable);
+        Product product = new Product(productId, productName, productPrice, productStockAvailable);
+        ProductValidator validator = new ProductValidator();
+        List<String> errors = validator.validate(product);
+        if (!errors.isEmpty()) {
+            ErrorLogger.logError("Validation Error", String.join(", ", errors), line, false);
+            return null;
+        }
+
     };
 
     public static Function<String, Customer> mapToCustomer = (line) -> {
