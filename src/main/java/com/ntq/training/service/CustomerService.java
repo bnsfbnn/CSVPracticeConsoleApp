@@ -1,4 +1,4 @@
-package com.ntq.training.bll.service;
+package com.ntq.training.service;
 
 import com.ntq.training.dal.entity.Product;
 

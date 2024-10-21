@@ -1,19 +1,20 @@
 package com.ntq.training.dal.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
+import lombok.*;
+
+import java.time.OffsetDateTime;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
+@Builder
 
 public class Order {
     private String id;
     private String customerId;
-    private String productQuantities;
-    private String orderDate;
+    private Map<String, Integer> productQuantities;
+    private OffsetDateTime orderDate;
 }

@@ -1,19 +1,18 @@
 package com.ntq.training.dal.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
+import lombok.*;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
+@Builder
 
 public class Product {
     private String id;
     private String name;
-    private Double price;
-    private Integer stockAvailable;
+    private BigDecimal price;
+    private Integer stockQuantity;
 }

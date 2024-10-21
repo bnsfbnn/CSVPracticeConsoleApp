@@ -1,9 +1,11 @@
-package com.ntq.training.infra.constants;
+package com.ntq.training.constants;
 
 import lombok.Getter;
 
 public class FileReaderConstants {
-    public static final String CSV_LINE_SEPARATOR = ",";
+    public static final String ERROR_SEPARATOR = ", ";
+    public static final String PRODUCT_QUANTITIES_SEPARATOR = ";";
+    public static final String PRODUCT_QUANTITY_SEPARATOR = ":";
 
     @Getter
     public enum ProductField {

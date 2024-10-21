@@ -1,4 +1,4 @@
-package com.ntq.training.infra.util;
+package com.ntq.training.util;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;

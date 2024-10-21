@@ -1,4 +1,4 @@
-package com.ntq.training.infra.util;
+package com.ntq.training.util;
 
 import com.opencsv.CSVWriter;
 
@@ -16,6 +16,14 @@ public class FileWriterHelper {
             for (List<String> record : records) {
                 csvWriter.writeNext(record.toArray(new String[0]));
             }
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+    }
+
+    public void writeTxtFile(String filePath, String lines) {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write(lines);
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
