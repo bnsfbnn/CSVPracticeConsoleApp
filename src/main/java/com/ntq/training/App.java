@@ -1,7 +1,9 @@
 package com.ntq.training;
 
-import com.ntq.training.gui.ConsoleUI;
+import com.ntq.training.pl.FunctionController;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class App {
     public static void main(String[] args) {
         if (args.length < 2) {
@@ -10,8 +12,7 @@ public class App {
         }
         String functionCode = args[0];
         String filePath = args[1];
-
-        ConsoleUI consoleUI = new ConsoleUI();
-        consoleUI.run(functionCode, filePath);
+        FunctionController functionController = new FunctionController();
+        functionController.run(functionCode, filePath);
     }
 }

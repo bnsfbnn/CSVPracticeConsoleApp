@@ -2,11 +2,7 @@ package com.ntq.training.validator;
 
 import java.math.BigDecimal;
 
-public class CommonValidator {
-    public static boolean isNonEmpty(String value) {
-        return value != null && !value.trim().isEmpty();
-    }
-
+public class CommonParserValidator {
     public static boolean isPositive(BigDecimal value) {
         return value != null && value.compareTo(BigDecimal.ZERO) > 0;
     }
@@ -23,11 +19,4 @@ public class CommonValidator {
         return phoneNumber != null && phoneNumber.matches("^\\d{10}$");
     }
 
-    public static boolean isValidDate(String date) {
-        return date != null && date.matches("^\\d{4}-\\d{2}-\\d{2}$");
-    }
-
-    public static boolean isWithinRange(int value, int min, int max) {
-        return value >= min && value <= max;
-    }
 }

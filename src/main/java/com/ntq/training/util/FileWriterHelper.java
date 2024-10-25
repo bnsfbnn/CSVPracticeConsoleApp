@@ -10,7 +10,7 @@ public class FileWriterHelper {
     public void writeCsvFile(String filePath, List<String> headers, List<List<String>> records) {
         try (
                 FileWriter writer = new FileWriter(filePath);
-                CSVWriter csvWriter = new CSVWriter(writer)
+                CSVWriter csvWriter = new CSVWriter(writer, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)
         ) {
             csvWriter.writeNext(headers.toArray(new String[0]));
             for (List<String> record : records) {

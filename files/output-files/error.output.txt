@@ -1,0 +1,10 @@
+2024-10-25 15:37:40 INFO  com.ntq.training.App - Hello World!
+2024-10-25 15:43:42 INFO  c.ntq.training.pl.FunctionController - FUNCTION 1 - Waiting for loading data
+2024-10-25 15:43:42 ERROR c.n.training.validator.FileValidator - FILE ERROR: Row 0 is missing values for columns: [stock available]
+2024-10-25 15:45:01 INFO  c.ntq.training.pl.FunctionController - FUNCTION 1 - Waiting for loading data
+2024-10-25 15:45:01 ERROR c.n.training.validator.FileValidator - FILE ERROR: Row 1 is missing values for columns: [stock available]
+2024-10-25 17:08:18 INFO  c.ntq.training.pl.FunctionController - FUNCTION 1 - Waiting for loading data from products.origin.csv !!!
+2024-10-25 17:08:18 ERROR c.n.training.validator.FileValidator - FILE ERROR: Row 1 is missing values for columns: [stock available]
+2024-10-25 17:08:18 INFO  c.ntq.training.pl.FunctionController - FUNCTION 1 - Load data to products.output.csv successfully completed !!!
+2024-10-25 17:08:18 INFO  c.ntq.training.pl.FunctionController - FUNCTION 1 - Waiting for loading data from customers.origin.csv !!!
+2024-10-25 17:08:19 INFO  c.ntq.training.pl.FunctionController - FUNCTION 1 - Load data to customers.output.csv successfully completed !!!

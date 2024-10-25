@@ -2,9 +2,9 @@ package com.ntq.training.dal.entity;
 
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Getter
 @Setter
@@ -17,4 +17,5 @@ public class Order {
     private String customerId;
     private Map<String, Integer> productQuantities;
     private OffsetDateTime orderDate;
+    private BigDecimal totalAmount;
 }
