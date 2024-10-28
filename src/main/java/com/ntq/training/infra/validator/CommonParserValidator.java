@@ -1,4 +1,4 @@
-package com.ntq.training.validator;
+package com.ntq.training.infra.validator;
 
 import java.math.BigDecimal;
 

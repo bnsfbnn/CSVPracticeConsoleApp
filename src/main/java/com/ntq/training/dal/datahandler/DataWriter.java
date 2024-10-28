@@ -1,6 +1,6 @@
 package com.ntq.training.dal.datahandler;
 
-import com.ntq.training.util.FileWriterHelper;
+import com.ntq.training.infra.util.FileWriterHelper;
 
 import java.util.List;
 import java.util.Map;

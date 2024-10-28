@@ -1,15 +1,16 @@
-package com.ntq.training.util;
+package com.ntq.training.dal.datahandler;
 
 import com.ntq.training.dal.entity.Customer;
 import com.ntq.training.dal.entity.Order;
 import com.ntq.training.dal.entity.Product;
-import com.ntq.training.constants.FileConstants;
-import com.ntq.training.validator.parserimpl.CustomerParserValidator;
-import com.ntq.training.validator.ParserValidator;
-import com.ntq.training.validator.parserimpl.ProductParserValidator;
+import com.ntq.training.infra.constants.FileConstants;
+import com.ntq.training.infra.validator.parserimpl.CustomerParserValidator;
+import com.ntq.training.infra.validator.ParserValidator;
+import com.ntq.training.infra.validator.parserimpl.ProductParserValidator;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -21,7 +22,7 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class DataLineParserHelper {
+public class DataLineParser {
 
     public static BiFunction<Integer, List<String>, Optional<Product>> mapToProduct = (rowIndex, line) -> {
         String productId = line.get(FileConstants.ProductField.PRODUCT_ID.getIndex());
@@ -49,9 +50,7 @@ public class DataLineParserHelper {
         ParserValidator<Product> productParserValidator = new ProductParserValidator();
         List<String> validationErrors = productParserValidator.validate(rawProduct);
         if (!validationErrors.isEmpty()) {
-            validationErrors.forEach(error -> {
-                log.error("PARSER VALIDATION ERROR: Row {} in product file has {}", rowIndex, error);
-            });
+            log.error("PARSER VALIDATION ERROR: Row {} in product file has {}", rowIndex, validationErrors);
             return Optional.empty();
         }
         return Optional.of(rawProduct);
@@ -71,13 +70,10 @@ public class DataLineParserHelper {
         ParserValidator<Customer> customerParserValidator = new CustomerParserValidator();
         List<String> validationErrors = customerParserValidator.validate(rawCustomer);
         if (!validationErrors.isEmpty()) {
-            validationErrors.forEach(error -> {
-                log.error("CUSTOMER VALIDATION ERROR: Row {} in customer file has {}", rowIndex, error);
-            });
+            log.error("PARSER VALIDATION ERROR: Row {} in customer file has {}", rowIndex, validationErrors);
             return Optional.empty();
         }
         return Optional.of(rawCustomer);
-
     };
 
     public static BiFunction<Integer, List<String>, Optional<Order>> mapToOrder = (rowIndex, line) -> {
@@ -95,18 +91,18 @@ public class DataLineParserHelper {
                                 try {
                                     int quantity = Integer.parseInt(entry[1]);
                                     if (quantity <= 0) {
-                                        log.error("ORDER VALIDATION ERROR: Row {} in order file has product quantity is a negative number.", rowIndex);
+                                        log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity is a negative number.", rowIndex);
                                         return null;
                                     }
                                     return quantity;
                                 } catch (NumberFormatException e) {
-                                    log.error("ORDER VALIDATION ERROR: Row {} in order file has product quantity not a number.", rowIndex);
+                                    log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity not a number.", rowIndex);
                                     return null;
                                 }
                             }
                     ));
         } catch (Exception e) {
-            log.error("ORDER VALIDATION ERROR: Row {} in order file cannot parsing product quantities.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in order file cannot parsing product quantities.", rowIndex);
             return Optional.empty();
         }
         productQuantities = productQuantities.entrySet().stream()
@@ -116,7 +112,14 @@ public class DataLineParserHelper {
         try {
             orderDate = OffsetDateTime.parse(raw_orderDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         } catch (DateTimeParseException e) {
-            log.error("ORDER VALIDATION ERROR: Row {} in order file is invalid date format for order date.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in order file is invalid date format for order date.", rowIndex);
+            return Optional.empty();
+        }
+        BigDecimal totalAmount;
+        try {
+            totalAmount = new BigDecimal(BigInteger.ZERO);
+        } catch (NumberFormatException e) {
+            log.error("PARSER VALIDATION ERROR: Row {} in order file has an invalid format for total amount.", rowIndex);
             return Optional.empty();
         }
         return Optional.of(Order.builder()
@@ -124,6 +127,7 @@ public class DataLineParserHelper {
                 .customerId(orderCustomerId)
                 .productQuantities(productQuantities)
                 .orderDate(orderDate)
+                .totalAmount(totalAmount)
                 .build());
     };
 }

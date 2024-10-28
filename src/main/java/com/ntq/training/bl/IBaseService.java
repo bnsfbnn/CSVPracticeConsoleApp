@@ -1,5 +1,8 @@
 package com.ntq.training.bl;
 
+import com.ntq.training.dal.entity.Customer;
+import com.ntq.training.dal.entity.Product;
+
 import java.util.Map;
 
 public interface IBaseService<T> {
@@ -7,7 +10,7 @@ public interface IBaseService<T> {
 
     void saveFile(String filePath, Map<Integer, T> entities);
 
-    boolean insert(String filePath);
+    Map<Integer, T> insert(String filePath, Map<Integer, T> entities, Map<Integer, T> newEntities);
 
     boolean update(String filePath);
 

@@ -1,11 +1,15 @@
-package com.ntq.training.util;
+package com.ntq.training.infra.util;
 
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 public class FileWriterHelper {
     public void writeCsvFile(String filePath, List<String> headers, List<List<String>> records) {
         try (
@@ -16,16 +20,12 @@ public class FileWriterHelper {
             for (List<String> record : records) {
                 csvWriter.writeNext(record.toArray(new String[0]));
             }
+        } catch (FileNotFoundException e) {
+            log.error("FILE WRITER ERROR: The file at path '{}' was not found.", filePath);
+            System.exit(0);
         } catch (IOException e) {
-            System.err.println("Error writing to file: " + e.getMessage());
-        }
-    }
-
-    public void writeTxtFile(String filePath, String lines) {
-        try (FileWriter writer = new FileWriter(filePath)) {
-            writer.write(lines);
-        } catch (IOException e) {
-            System.err.println("Error writing to file: " + e.getMessage());
+            log.error("FILE READER ERROR: Error writing file - {}.", e.getMessage());
+            System.exit(0);
         }
     }
 }

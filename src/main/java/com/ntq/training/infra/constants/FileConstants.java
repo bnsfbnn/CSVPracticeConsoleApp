@@ -1,4 +1,4 @@
-package com.ntq.training.constants;
+package com.ntq.training.infra.constants;
 
 import lombok.Getter;
 
@@ -7,12 +7,12 @@ public class FileConstants {
     public static final String PRODUCT_QUANTITY_SEPARATOR = ":";
     public static final String INPUT_CSV_SUB_FOLDER_PATH = "input-files";
     public static final String OUTPUT_CSV_SUB_FOLDER_PATH = "output-files";
-    public static final String PRODUCT_ORIGIN_CSV_FILE_NAME = "products.origin.csv";
-    public static final String PRODUCT_OUTPUT_CSV_FILE_NAME = "products.output.csv";
-    public static final String CUSTOMER_ORIGIN_CSV_FILE_NAME = "customers.origin.csv";
-    public static final String CUSTOMER_OUTPUT_CSV_FILE_NAME = "customers.output.csv";
-    public static final String ORDER_ORIGIN_CSV_FILE_NAME = "orders.origin.csv";
-    public static final String ORDER_OUTPUT_CSV_FILE_NAME = "orders.output.csv";
+    public static final String ORIGIN_CSV_FILE_EXTENSION = ".origin.csv";
+    public static final String OUTPUT_CSV_FILE_EXTENSION = ".output.csv";
+    public static final String NEW_CSV_FILE_EXTENSION = ".new.csv";
+    public static final String EDIT_CSV_FILE_EXTENSION = ".edit.csv";
+    public static final String DELETE_CSV_FILE_EXTENSION = ".delete.csv";
+
 
     @Getter
     public enum ProductField {

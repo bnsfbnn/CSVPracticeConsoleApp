@@ -1,6 +1,6 @@
 package com.ntq.training.dal.datahandler;
 
-import com.ntq.training.util.FileReaderHelper;
+import com.ntq.training.infra.util.FileReaderHelper;
 
 import java.util.*;
 import java.util.function.BiFunction;

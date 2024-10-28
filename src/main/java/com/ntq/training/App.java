@@ -12,7 +12,6 @@ public class App {
         }
         String functionCode = args[0];
         String filePath = args[1];
-        FunctionController functionController = new FunctionController();
-        functionController.run(functionCode, filePath);
+        FunctionController.run(functionCode, filePath);
     }
 }
