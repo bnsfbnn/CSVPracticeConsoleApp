@@ -1,7 +1,6 @@
 package com.ntq.training.infra.util;
 
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileNotFoundException;

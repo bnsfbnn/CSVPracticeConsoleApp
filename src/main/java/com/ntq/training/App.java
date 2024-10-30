@@ -1,6 +1,6 @@
 package com.ntq.training;
 
-import com.ntq.training.pl.FunctionController;
+import com.ntq.training.pl.IBaseController;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -12,6 +12,6 @@ public class App {
         }
         String functionCode = args[0];
         String filePath = args[1];
-        FunctionController.run(functionCode, filePath);
+        IBaseController.run(functionCode, filePath);
     }
 }

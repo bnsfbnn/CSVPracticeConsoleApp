@@ -11,9 +11,7 @@ public class DataWriter<T> {
                          Function<T, List<String>> headersFunction,
                          Function<T, List<String>> rowMapperFunction) {
         FileWriterHelper fileWriterHelper = new FileWriterHelper();
-
         List<String> headers = headersFunction.apply(null);
-
         List<List<String>> records = entities.entrySet().stream()
                 .map(entry -> rowMapperFunction.apply(entry.getValue()))
                 .toList();

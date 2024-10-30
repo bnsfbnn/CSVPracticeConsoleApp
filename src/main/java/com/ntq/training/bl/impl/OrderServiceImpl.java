@@ -1,9 +1,9 @@
 package com.ntq.training.bl.impl;
 
-import com.ntq.training.bl.IBaseService;
+import com.ntq.training.bl.OrderService;
 import com.ntq.training.dal.datahandler.DataLoader;
 import com.ntq.training.dal.datahandler.DataWriter;
-import com.ntq.training.dal.entity.Customer;
+import com.ntq.training.dal.dto.OrderToAddDTO;
 import com.ntq.training.dal.entity.Order;
 import com.ntq.training.dal.datahandler.DataLineParser;
 import com.ntq.training.dal.datahandler.DataLineWriter;
@@ -14,13 +14,12 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.function.Function;
 
-public class OrderService implements IBaseService<Order> {
-    private final DataLoader<Order> dataLoader = new DataLoader<>();
-    private final DataWriter<Order> dataWriter = new DataWriter<>();
-    private final UniqueValidator<Order> uniqueValidator = new UniqueValidator<>();
+public class OrderServiceImpl implements OrderService {
 
     @Override
     public Map<Integer, Order> loadFile(String filePath) {
+        DataLoader<Order> dataLoader = new DataLoader<>();
+        UniqueValidator<Order> uniqueValidator = new UniqueValidator<>();
         Map<Integer, Order> orderMap = dataLoader.loadData(filePath, DataLineParser.mapToOrder);
         Function<Order, String> uniquenessCustomerIdExtractor = Order::getId;
         orderMap = uniqueValidator.validate(orderMap, uniquenessCustomerIdExtractor, Order.class);
@@ -29,24 +28,32 @@ public class OrderService implements IBaseService<Order> {
 
     @Override
     public void saveFile(String filePath, Map<Integer, Order> orders) {
+        DataWriter<Order> dataWriter = new DataWriter<>();
         dataWriter.saveData(orders, filePath, DataLineWriter.getOrderHeaders, DataLineWriter.getOrderRowMapper());
     }
 
     @Override
-    public Map<Integer, Order> insert(String filePath, Map<Integer, Order> orders, Map<Integer, Order> newOrders) {
-
+    public Map<Integer, Order> insert(String filePath, Map<Integer, Order> orders, Map<Integer, OrderToAddDTO> newOrders) {
+        return orders;
     }
 
     @Override
-    public boolean update(String filePath) {
-        return false;
+    public Map<Integer, Order> update(String filePath, Map<Integer, Order> entities, Map<Integer, Order> updateEntities) {
+        return Map.of();
     }
 
     @Override
-    public boolean delete(String filePath) {
-        return false;
+    public Map<Integer, OrderToAddDTO> loadAddingFile(String filePath) {
+        DataLoader<OrderToAddDTO> dataLoader = new DataLoader<>();
+        return dataLoader.loadData(filePath, DataLineParser.mapToAddingOrder);
     }
 
+    @Override
+    public Map<Integer, Order> delete(String filePath, Map<Integer, Order> entities, Map<Integer, Order> deleteEntities) {
+        return Map.of();
+    }
+
+    @Override
     public void calculateTotalAmountForOrders(Map<Integer, Order> orders, Map<Integer, Product> products) {
         for (Order order : orders.values()) {
             BigDecimal totalAmount = BigDecimal.ZERO;

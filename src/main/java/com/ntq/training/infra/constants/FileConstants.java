@@ -26,7 +26,6 @@ public class FileConstants {
         ProductField(int index) {
             this.index = index;
         }
-
     }
 
     @Getter
@@ -55,6 +54,41 @@ public class FileConstants {
         OrderField(int index) {
             this.index = index;
         }
+    }
 
+    @Getter
+    public enum ProductToDeleteField {
+        PRODUCT_ID(0);
+
+        private final int index;
+
+        ProductToDeleteField(int index) {
+            this.index = index;
+        }
+    }
+
+    @Getter
+    public enum CustomerToDeleteField {
+        CUSTOMER_PHONE_NUMBER(0);
+
+        private final int index;
+
+        CustomerToDeleteField(int index) {
+            this.index = index;
+        }
+    }
+
+    @Getter
+    public enum OrderToAddField {
+        ORDER_CUSTOMER_ID(0),
+        ORDER_PRODUCT_QUANTITIES(1),
+        ORDER_ORDER_DATE(2),
+        ORDER_TOTAL_AMOUNT(3);
+
+        private final int index;
+
+        OrderToAddField(int index) {
+            this.index = index;
+        }
     }
 }

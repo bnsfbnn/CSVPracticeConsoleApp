@@ -1,5 +1,8 @@
 package com.ntq.training.dal.datahandler;
 
+import com.ntq.training.dal.dto.OrderToAddDTO;
+import com.ntq.training.dal.dto.ProductToDeleteDTO;
+import com.ntq.training.dal.dto.CustomerToDeleteDTO;
 import com.ntq.training.dal.entity.Customer;
 import com.ntq.training.dal.entity.Order;
 import com.ntq.training.dal.entity.Product;
@@ -23,7 +26,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class DataLineParser {
-
     public static BiFunction<Integer, List<String>, Optional<Product>> mapToProduct = (rowIndex, line) -> {
         String productId = line.get(FileConstants.ProductField.PRODUCT_ID.getIndex());
         String productName = line.get(FileConstants.ProductField.PRODUCT_NAME.getIndex());
@@ -50,7 +52,7 @@ public class DataLineParser {
         ParserValidator<Product> productParserValidator = new ProductParserValidator();
         List<String> validationErrors = productParserValidator.validate(rawProduct);
         if (!validationErrors.isEmpty()) {
-            log.error("PARSER VALIDATION ERROR: Row {} in product file has {}", rowIndex, validationErrors);
+            log.error("PARSER VALIDATION ERROR: Row {} in product file has {}.", rowIndex, validationErrors);
             return Optional.empty();
         }
         return Optional.of(rawProduct);
@@ -70,7 +72,7 @@ public class DataLineParser {
         ParserValidator<Customer> customerParserValidator = new CustomerParserValidator();
         List<String> validationErrors = customerParserValidator.validate(rawCustomer);
         if (!validationErrors.isEmpty()) {
-            log.error("PARSER VALIDATION ERROR: Row {} in customer file has {}", rowIndex, validationErrors);
+            log.error("PARSER VALIDATION ERROR: Row {} in customer file has {}.", rowIndex, validationErrors);
             return Optional.empty();
         }
         return Optional.of(rawCustomer);
@@ -124,6 +126,73 @@ public class DataLineParser {
         }
         return Optional.of(Order.builder()
                 .id(orderId)
+                .customerId(orderCustomerId)
+                .productQuantities(productQuantities)
+                .orderDate(orderDate)
+                .totalAmount(totalAmount)
+                .build());
+    };
+
+    public static BiFunction<Integer, List<String>, Optional<ProductToDeleteDTO>> mapToDeletingProduct = (rowIndex, line) -> {
+        String productId = line.get(FileConstants.ProductToDeleteField.PRODUCT_ID.getIndex());
+        return Optional.of(ProductToDeleteDTO.builder()
+                .id(productId)
+                .build());
+    };
+
+    public static BiFunction<Integer, List<String>, Optional<CustomerToDeleteDTO>> mapToDeletingCustomer = (rowIndex, line) -> {
+        String customerPhoneNumber = line.get(FileConstants.CustomerToDeleteField.CUSTOMER_PHONE_NUMBER.getIndex());
+        return Optional.of(CustomerToDeleteDTO.builder()
+                .phoneNumber(customerPhoneNumber)
+                .build());
+    };
+
+    public static BiFunction<Integer, List<String>, Optional<OrderToAddDTO>> mapToAddingOrder = (rowIndex, line) -> {
+        String orderCustomerId = line.get(FileConstants.OrderField.ORDER_CUSTOMER_ID.getIndex());
+        String rawProductQuantities = line.get(FileConstants.OrderField.ORDER_PRODUCT_QUANTITIES.getIndex());
+        String raw_orderDate = line.get(FileConstants.OrderField.ORDER_ORDER_DATE.getIndex());
+        Map<String, Integer> productQuantities;
+        try {
+            productQuantities = Arrays.stream(rawProductQuantities.split(FileConstants.PRODUCT_QUANTITIES_SEPARATOR))
+                    .map(entry -> entry.split(FileConstants.PRODUCT_QUANTITY_SEPARATOR))
+                    .collect(Collectors.toMap(
+                            entry -> entry[0],
+                            entry -> {
+                                try {
+                                    int quantity = Integer.parseInt(entry[1]);
+                                    if (quantity <= 0) {
+                                        log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity is a negative number.", rowIndex);
+                                        return null;
+                                    }
+                                    return quantity;
+                                } catch (NumberFormatException e) {
+                                    log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity not a number.", rowIndex);
+                                    return null;
+                                }
+                            }
+                    ));
+        } catch (Exception e) {
+            log.error("PARSER VALIDATION ERROR: Row {} in order file cannot parsing product quantities.", rowIndex);
+            return Optional.empty();
+        }
+        productQuantities = productQuantities.entrySet().stream()
+                .filter(entry -> entry.getValue() != null)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        OffsetDateTime orderDate;
+        try {
+            orderDate = OffsetDateTime.parse(raw_orderDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        } catch (DateTimeParseException e) {
+            log.error("PARSER VALIDATION ERROR: Row {} in order file is invalid date format for order date.", rowIndex);
+            return Optional.empty();
+        }
+        BigDecimal totalAmount;
+        try {
+            totalAmount = new BigDecimal(BigInteger.ZERO);
+        } catch (NumberFormatException e) {
+            log.error("PARSER VALIDATION ERROR: Row {} in order file has an invalid format for total amount.", rowIndex);
+            return Optional.empty();
+        }
+        return Optional.of(OrderToAddDTO.builder()
                 .customerId(orderCustomerId)
                 .productQuantities(productQuantities)
                 .orderDate(orderDate)

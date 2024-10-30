@@ -23,3 +23,148 @@
 2024-10-27 13:11:34 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to products.output.csv successfully!
 2024-10-27 13:11:34 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to customers.output.csv successfully!
 2024-10-27 13:11:35 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to orders.output.csv successfully!
+2024-10-29 09:30:47 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Start loading data from files:  products.origin.csv, customers.origin.csv, orders.origin.csv.
+2024-10-29 09:30:47 ERROR c.n.t.infra.validator.FileValidator - FILE VALIDATION ERROR: Row 1 is missing values for columns: [StockAvailable]
+2024-10-29 09:30:47 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 2: 0320157548 will be removed.
+2024-10-29 09:30:47 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 3: 4e3o5rhj@gmail.com will be removed.
+2024-10-29 09:30:48 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1 has invalid customerId: CUS10000
+2024-10-29 09:30:48 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 59 has invalid productQuantities: [P0759, P0001, P0443, P0245, P0112]
+2024-10-29 09:30:48 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 375 has invalid customerId: CUS0002
+2024-10-29 09:30:48 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 558 has invalid productQuantities: [P0746, P0001, P0330]
+2024-10-29 09:30:48 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 628 has invalid customerId: CUS0002
+2024-10-29 09:30:48 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 976 has invalid customerId: CUS0002
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1600 has invalid productQuantities: [P0482, P0615, P0001]
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1618 has invalid productQuantities: [P0726, P0001]
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1891 has invalid customerId: CUS0003
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2082 has invalid productQuantities: [P0847, P0303, P0001, P0860, P0310]
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2343 has invalid productQuantities: [P0780, P0989, P0723, P0169, P0001]
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2823 has invalid productQuantities: [P0472, P0635, P0830, P0001]
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2952 has invalid productQuantities: [P0070, P0966, P0001, P0212]
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3176 has invalid productQuantities: [P0528, P0612, P0028, P0001]
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3722 has invalid productQuantities: [P0082, P0403, P0001]
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4243 has invalid productQuantities: [P0634, P0884, P0001, P0553, P0552]
+2024-10-29 09:30:49 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4689 has invalid customerId: CUS0002
+2024-10-29 09:30:50 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data from files: products.origin.csv, customers.origin.csv, orders.origin.csv successfully!
+2024-10-29 09:30:50 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to product.output.csv successfully!
+2024-10-29 09:30:50 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to customer.output.csv successfully!
+2024-10-29 09:30:52 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to order.output.csv successfully!
+2024-10-29 16:01:41 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Start loading data from files:  products.origin.csv, customers.origin.csv, orders.origin.csv.
+2024-10-30 10:22:38 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Start loading data from files:  products.origin.csv, customers.origin.csv, orders.origin.csv.
+2024-10-30 10:23:41 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Start loading data from files:  products.origin.csv, customers.origin.csv, orders.origin.csv.
+2024-10-30 10:28:57 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Start loading data from files:  products.origin.csv, customers.origin.csv, orders.origin.csv.
+2024-10-30 10:28:57 ERROR c.n.t.infra.validator.FileValidator - FILE VALIDATION ERROR: Row 1 is missing values for columns: [StockAvailable]
+2024-10-30 10:28:58 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 2: 0320157548 will be removed.
+2024-10-30 10:28:58 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 3: 4e3o5rhj@gmail.com will be removed.
+2024-10-30 10:28:58 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1 has invalid customerId: CUS10000
+2024-10-30 10:28:58 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 59 has invalid productQuantities: [P0759, P0001, P0443, P0245, P0112]
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 375 has invalid customerId: CUS0002
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 558 has invalid productQuantities: [P0746, P0001, P0330]
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 628 has invalid customerId: CUS0002
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 976 has invalid customerId: CUS0002
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1600 has invalid productQuantities: [P0482, P0615, P0001]
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1618 has invalid productQuantities: [P0726, P0001]
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1891 has invalid customerId: CUS0003
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2082 has invalid productQuantities: [P0847, P0303, P0001, P0860, P0310]
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2343 has invalid productQuantities: [P0780, P0989, P0723, P0169, P0001]
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2823 has invalid productQuantities: [P0472, P0635, P0830, P0001]
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2952 has invalid productQuantities: [P0070, P0966, P0001, P0212]
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3176 has invalid productQuantities: [P0528, P0612, P0028, P0001]
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3722 has invalid productQuantities: [P0082, P0403, P0001]
+2024-10-30 10:28:59 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4243 has invalid productQuantities: [P0634, P0884, P0001, P0553, P0552]
+2024-10-30 10:29:00 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4689 has invalid customerId: CUS0002
+2024-10-30 10:29:00 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data from files: products.origin.csv, customers.origin.csv, orders.origin.csv successfully!
+2024-10-30 10:29:10 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Start loading data from files:  products.origin.csv, customers.origin.csv, orders.origin.csv.
+2024-10-30 10:29:10 ERROR c.n.t.infra.validator.FileValidator - FILE VALIDATION ERROR: Row 1 is missing values for columns: [StockAvailable]
+2024-10-30 10:29:10 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 2: 0320157548 will be removed.
+2024-10-30 10:29:10 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 3: 4e3o5rhj@gmail.com will be removed.
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1 has invalid customerId: CUS10000
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 59 has invalid productQuantities: [P0759, P0001, P0443, P0245, P0112]
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 375 has invalid customerId: CUS0002
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 558 has invalid productQuantities: [P0746, P0001, P0330]
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 628 has invalid customerId: CUS0002
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 976 has invalid customerId: CUS0002
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1600 has invalid productQuantities: [P0482, P0615, P0001]
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1618 has invalid productQuantities: [P0726, P0001]
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1891 has invalid customerId: CUS0003
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2082 has invalid productQuantities: [P0847, P0303, P0001, P0860, P0310]
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2343 has invalid productQuantities: [P0780, P0989, P0723, P0169, P0001]
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2823 has invalid productQuantities: [P0472, P0635, P0830, P0001]
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2952 has invalid productQuantities: [P0070, P0966, P0001, P0212]
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3176 has invalid productQuantities: [P0528, P0612, P0028, P0001]
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3722 has invalid productQuantities: [P0082, P0403, P0001]
+2024-10-30 10:29:11 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4243 has invalid productQuantities: [P0634, P0884, P0001, P0553, P0552]
+2024-10-30 10:29:12 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4689 has invalid customerId: CUS0002
+2024-10-30 10:29:12 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data from files: products.origin.csv, customers.origin.csv, orders.origin.csv successfully!
+2024-10-30 10:30:04 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Start loading data from files:  products.origin.csv, customers.origin.csv, orders.origin.csv.
+2024-10-30 10:30:04 ERROR c.n.t.infra.validator.FileValidator - FILE VALIDATION ERROR: Row 1 is missing values for columns: [StockAvailable]
+2024-10-30 10:30:05 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 2: 0320157548 will be removed.
+2024-10-30 10:30:05 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 3: 4e3o5rhj@gmail.com will be removed.
+2024-10-30 10:30:05 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1 has invalid customerId: CUS10000
+2024-10-30 10:30:05 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 59 has invalid productQuantities: [P0759, P0001, P0443, P0245, P0112]
+2024-10-30 10:30:05 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 375 has invalid customerId: CUS0002
+2024-10-30 10:30:05 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 558 has invalid productQuantities: [P0746, P0001, P0330]
+2024-10-30 10:30:05 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 628 has invalid customerId: CUS0002
+2024-10-30 10:30:05 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 976 has invalid customerId: CUS0002
+2024-10-30 10:30:05 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1600 has invalid productQuantities: [P0482, P0615, P0001]
+2024-10-30 10:30:06 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1618 has invalid productQuantities: [P0726, P0001]
+2024-10-30 10:30:06 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1891 has invalid customerId: CUS0003
+2024-10-30 10:30:06 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2082 has invalid productQuantities: [P0847, P0303, P0001, P0860, P0310]
+2024-10-30 10:30:06 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2343 has invalid productQuantities: [P0780, P0989, P0723, P0169, P0001]
+2024-10-30 10:30:06 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2823 has invalid productQuantities: [P0472, P0635, P0830, P0001]
+2024-10-30 10:30:06 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2952 has invalid productQuantities: [P0070, P0966, P0001, P0212]
+2024-10-30 10:30:06 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3176 has invalid productQuantities: [P0528, P0612, P0028, P0001]
+2024-10-30 10:30:06 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3722 has invalid productQuantities: [P0082, P0403, P0001]
+2024-10-30 10:30:06 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4243 has invalid productQuantities: [P0634, P0884, P0001, P0553, P0552]
+2024-10-30 10:30:06 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4689 has invalid customerId: CUS0002
+2024-10-30 10:30:06 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data from files: products.origin.csv, customers.origin.csv, orders.origin.csv successfully!
+2024-10-30 10:30:06 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to products.output.csv successfully!
+2024-10-30 10:30:06 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to customers.output.csv successfully!
+2024-10-30 10:33:01 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Start loading data from files:  products.origin.csv, customers.origin.csv, orders.origin.csv.
+2024-10-30 10:33:01 ERROR c.n.t.infra.validator.FileValidator - FILE VALIDATION ERROR: Row 1 is missing values for columns: [StockAvailable]
+2024-10-30 10:33:01 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 2: 0320157548 will be removed.
+2024-10-30 10:33:01 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 3: 4e3o5rhj@gmail.com will be removed.
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1 has invalid customerId: CUS10000
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 59 has invalid productQuantities: [P0759, P0001, P0443, P0245, P0112]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 375 has invalid customerId: CUS0002
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 558 has invalid productQuantities: [P0746, P0001, P0330]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 628 has invalid customerId: CUS0002
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 976 has invalid customerId: CUS0002
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1600 has invalid productQuantities: [P0482, P0615, P0001]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1618 has invalid productQuantities: [P0726, P0001]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1891 has invalid customerId: CUS0003
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2082 has invalid productQuantities: [P0847, P0303, P0001, P0860, P0310]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2343 has invalid productQuantities: [P0780, P0989, P0723, P0169, P0001]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2823 has invalid productQuantities: [P0472, P0635, P0830, P0001]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2952 has invalid productQuantities: [P0070, P0966, P0001, P0212]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3176 has invalid productQuantities: [P0528, P0612, P0028, P0001]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3722 has invalid productQuantities: [P0082, P0403, P0001]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4243 has invalid productQuantities: [P0634, P0884, P0001, P0553, P0552]
+2024-10-30 10:33:02 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4689 has invalid customerId: CUS0002
+2024-10-30 10:33:02 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data from files: products.origin.csv, customers.origin.csv, orders.origin.csv successfully!
+2024-10-30 10:33:03 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to products.output.csv successfully!
+2024-10-30 10:33:03 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to customers.output.csv successfully!
+2024-10-30 10:33:17 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Start loading data from files:  products.origin.csv, customers.origin.csv, orders.origin.csv.
+2024-10-30 10:33:17 ERROR c.n.t.infra.validator.FileValidator - FILE VALIDATION ERROR: Row 1 is missing values for columns: [StockAvailable]
+2024-10-30 10:33:17 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 2: 0320157548 will be removed.
+2024-10-30 10:33:17 ERROR c.n.t.i.validator.UniqueValidator - COM.NTQ.TRAINING.DAL.ENTITY.CUSTOMER UNIQUE VALIDATION ERROR: Duplicate value found at line 3: 4e3o5rhj@gmail.com will be removed.
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1 has invalid customerId: CUS10000
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 59 has invalid productQuantities: [P0759, P0001, P0443, P0245, P0112]
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 375 has invalid customerId: CUS0002
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 558 has invalid productQuantities: [P0746, P0001, P0330]
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 628 has invalid customerId: CUS0002
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 976 has invalid customerId: CUS0002
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1600 has invalid productQuantities: [P0482, P0615, P0001]
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1618 has invalid productQuantities: [P0726, P0001]
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 1891 has invalid customerId: CUS0003
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2082 has invalid productQuantities: [P0847, P0303, P0001, P0860, P0310]
+2024-10-30 10:33:18 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2343 has invalid productQuantities: [P0780, P0989, P0723, P0169, P0001]
+2024-10-30 10:33:19 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2823 has invalid productQuantities: [P0472, P0635, P0830, P0001]
+2024-10-30 10:33:19 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 2952 has invalid productQuantities: [P0070, P0966, P0001, P0212]
+2024-10-30 10:33:19 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3176 has invalid productQuantities: [P0528, P0612, P0028, P0001]
+2024-10-30 10:33:19 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 3722 has invalid productQuantities: [P0082, P0403, P0001]
+2024-10-30 10:33:19 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4243 has invalid productQuantities: [P0634, P0884, P0001, P0553, P0552]
+2024-10-30 10:33:19 ERROR c.n.t.i.v.OrderConsistencyChecker - CONSISTENCY VALIDATION ERROR: Order at line 4689 has invalid customerId: CUS0002
+2024-10-30 10:33:19 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data from files: products.origin.csv, customers.origin.csv, orders.origin.csv successfully!
+2024-10-30 10:33:19 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to products.output.csv successfully!
+2024-10-30 10:33:19 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to customers.output.csv successfully!
+2024-10-30 10:33:20 INFO  c.n.t.pl.impl.LoadDataController - FUNCTION 1 - Load data to orders.output.csv successfully!
