@@ -1,5 +1,5 @@
 package com.ntq.training.pl;
 
-public interface IBaseController {
+public interface IBaseFunction {
     void processFunction(String filePath);
 }

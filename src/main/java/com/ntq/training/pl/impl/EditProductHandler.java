@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 @Slf4j
-public class EditProductFromFileHandler implements IBaseFunction {
+public class EditProductHandler implements IBaseFunction {
     @Override
     public void processFunction(String filePath) {
         ProductService service = new ProductServiceImpl();

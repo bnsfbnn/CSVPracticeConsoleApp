@@ -21,8 +21,8 @@ public class UniqueValidator<T> {
             String uniqueValue = uniquenessExtractor.apply(entity);
 
             if (seenValues.contains(uniqueValue)) {
-                String className = objectClass.getName().toUpperCase();
-                log.error("{} UNIQUE VALIDATION ERROR: Duplicate value found at line {}: {} will be removed.", className, lineNumber, uniqueValue);
+                String objectName = objectClass.getSimpleName();
+                log.error("UNIQUE {} VALIDATION ERROR: Value {} at line {} is duplicated, this line will not be added to the output file.", objectName.toUpperCase(), uniqueValue, lineNumber);
             } else {
                 seenValues.add(uniqueValue);
                 validatedEntities.put(lineNumber, entity);

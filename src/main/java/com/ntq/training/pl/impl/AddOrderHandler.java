@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 @Slf4j
-public class AddOrderController implements IBaseFunction {
+public class AddOrderHandler implements IBaseFunction {
     private final Map<String, IDataService<?>> services = Map.of(
             "products", new ProductServiceImpl(),
             "customers", new CustomerServiceImpl(),

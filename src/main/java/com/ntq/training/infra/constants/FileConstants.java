@@ -82,12 +82,22 @@ public class FileConstants {
     public enum OrderToAddField {
         ORDER_CUSTOMER_ID(0),
         ORDER_PRODUCT_QUANTITIES(1),
-        ORDER_ORDER_DATE(2),
-        ORDER_TOTAL_AMOUNT(3);
+        ORDER_ORDER_DATE(2);
 
         private final int index;
 
         OrderToAddField(int index) {
+            this.index = index;
+        }
+    }
+
+    @Getter
+    public enum OrderToDeleteField {
+        ORDER_ID(0);
+
+        private final int index;
+
+        OrderToDeleteField(int index) {
             this.index = index;
         }
     }

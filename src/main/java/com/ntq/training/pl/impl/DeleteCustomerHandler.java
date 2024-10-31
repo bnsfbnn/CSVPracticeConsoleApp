@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 @Slf4j
-public class DeleteCustomerFromFileHandler implements IBaseFunction {
+public class DeleteCustomerHandler implements IBaseFunction {
     @Override
     public void processFunction(String filePath) {
         CustomerService service = new CustomerServiceImpl();

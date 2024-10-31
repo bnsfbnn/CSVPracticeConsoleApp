@@ -1,6 +1,7 @@
 package com.ntq.training.dal.datahandler;
 
 import com.ntq.training.dal.dto.OrderToAddDTO;
+import com.ntq.training.dal.dto.OrderToDeleteDTO;
 import com.ntq.training.dal.dto.ProductToDeleteDTO;
 import com.ntq.training.dal.dto.CustomerToDeleteDTO;
 import com.ntq.training.dal.entity.Customer;
@@ -94,21 +95,22 @@ public class DataLineParser {
                                     int quantity = Integer.parseInt(entry[1]);
                                     if (quantity <= 0) {
                                         log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity is a negative number.", rowIndex);
-                                        return null;
+                                        return -1;
                                     }
                                     return quantity;
                                 } catch (NumberFormatException e) {
                                     log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity not a number.", rowIndex);
-                                    return null;
+                                    return -1;
                                 }
-                            }
+                            },
+                            Integer::sum
                     ));
         } catch (Exception e) {
             log.error("PARSER VALIDATION ERROR: Row {} in order file cannot parsing product quantities.", rowIndex);
             return Optional.empty();
         }
         productQuantities = productQuantities.entrySet().stream()
-                .filter(entry -> entry.getValue() != null)
+                .filter(entry -> entry.getValue() != -1)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         OffsetDateTime orderDate;
         try {
@@ -147,10 +149,17 @@ public class DataLineParser {
                 .build());
     };
 
+    public static BiFunction<Integer, List<String>, Optional<OrderToDeleteDTO>> mapToDeletingOrder = (rowIndex, line) -> {
+        String orderId = line.get(FileConstants.OrderToDeleteField.ORDER_ID.getIndex());
+        return Optional.of(OrderToDeleteDTO.builder()
+                .id(orderId)
+                .build());
+    };
+
     public static BiFunction<Integer, List<String>, Optional<OrderToAddDTO>> mapToAddingOrder = (rowIndex, line) -> {
-        String orderCustomerId = line.get(FileConstants.OrderField.ORDER_CUSTOMER_ID.getIndex());
-        String rawProductQuantities = line.get(FileConstants.OrderField.ORDER_PRODUCT_QUANTITIES.getIndex());
-        String raw_orderDate = line.get(FileConstants.OrderField.ORDER_ORDER_DATE.getIndex());
+        String orderCustomerId = line.get(FileConstants.OrderToAddField.ORDER_CUSTOMER_ID.getIndex());
+        String rawProductQuantities = line.get(FileConstants.OrderToAddField.ORDER_PRODUCT_QUANTITIES.getIndex());
+        String raw_orderDate = line.get(FileConstants.OrderToAddField.ORDER_ORDER_DATE.getIndex());
         Map<String, Integer> productQuantities;
         try {
             productQuantities = Arrays.stream(rawProductQuantities.split(FileConstants.PRODUCT_QUANTITIES_SEPARATOR))
@@ -162,13 +171,17 @@ public class DataLineParser {
                                     int quantity = Integer.parseInt(entry[1]);
                                     if (quantity <= 0) {
                                         log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity is a negative number.", rowIndex);
-                                        return null;
+                                        return -1;
                                     }
                                     return quantity;
                                 } catch (NumberFormatException e) {
                                     log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity not a number.", rowIndex);
-                                    return null;
+                                    return -1;
                                 }
+                            },
+                            (e1, e2) -> {
+                                log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity not a number.", rowIndex);
+                                return null;
                             }
                     ));
         } catch (Exception e) {
@@ -176,7 +189,7 @@ public class DataLineParser {
             return Optional.empty();
         }
         productQuantities = productQuantities.entrySet().stream()
-                .filter(entry -> entry.getValue() != null)
+                .filter(entry -> entry.getValue() != -1)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         OffsetDateTime orderDate;
         try {

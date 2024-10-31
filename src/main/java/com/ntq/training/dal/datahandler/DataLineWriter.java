@@ -11,11 +11,15 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class DataLineWriter {
+    public static Function<Product, List<String>> getProductHeaders = (Void) -> List.of("Id", "Name", "Price", "StockAvailable");
+    public static Function<Customer, List<String>> getCustomerHeaders = (Void) -> List.of("Id", "Name", "Email", "PhoneNumber");
+    public static Function<Order, List<String>> getOrderHeaders = (Void) -> List.of("Id", "CustomerId", "ProductQuantities", "OrderDate", "TotalAmount");
+
     public static Function<Product, List<String>> getProductRowMapper() {
         return product -> List.of(
                 String.valueOf(product.getId()),
                 product.getName(),
-                String.valueOf(product.getPrice()),
+                String.valueOf(product.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP)),
                 String.valueOf(product.getStockQuantity())
         );
     }
@@ -40,8 +44,4 @@ public class DataLineWriter {
                 (order.getTotalAmount().equals(BigDecimal.ZERO)) ? "Not calculate" : order.getTotalAmount().toString()
         );
     }
-
-    public static Function<Product, List<String>> getProductHeaders = (Void) -> List.of("Id", "Name", "Price", "StockAvailable");
-    public static Function<Customer, List<String>> getCustomerHeaders = (Void) -> List.of("Id", "Name", "Email", "PhoneNumber");
-    public static Function<Order, List<String>> getOrderHeaders = (Void) -> List.of("Id", "CustomerId", "ProductQuantities", "OrderDate", "TotalAmount");
 }

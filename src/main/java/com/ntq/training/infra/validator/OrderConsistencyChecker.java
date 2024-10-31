@@ -11,6 +11,7 @@ import java.util.Map;
 
 @Slf4j
 public class OrderConsistencyChecker {
+
     public static Map<Integer, Order> checkOrderConsistency(
             Map<Integer, Order> orders,
             Map<Integer, Customer> customers,
