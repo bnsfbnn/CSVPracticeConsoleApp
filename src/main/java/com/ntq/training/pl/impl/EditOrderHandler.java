@@ -5,20 +5,19 @@ import com.ntq.training.bl.OrderService;
 import com.ntq.training.bl.impl.CustomerServiceImpl;
 import com.ntq.training.bl.impl.OrderServiceImpl;
 import com.ntq.training.bl.impl.ProductServiceImpl;
-import com.ntq.training.dal.dto.OrderToAddDTO;
 import com.ntq.training.dal.entity.Customer;
 import com.ntq.training.dal.entity.Order;
 import com.ntq.training.dal.entity.Product;
 import com.ntq.training.infra.constants.FileConstants;
 import com.ntq.training.infra.validator.OrderConsistencyChecker;
-import com.ntq.training.pl.IBaseController;
+import com.ntq.training.pl.IBaseFunction;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.file.Paths;
 import java.util.Map;
 
 @Slf4j
-public class AddOrderController implements IBaseController {
+public class EditOrderController implements IBaseFunction {
     private final Map<String, IDataService<?>> services = Map.of(
             "products", new ProductServiceImpl(),
             "customers", new CustomerServiceImpl(),
@@ -31,15 +30,13 @@ public class AddOrderController implements IBaseController {
         Map<Integer, Customer> customers = loadData("customers", filePath);
         Map<Integer, Order> orders = loadData("orders", filePath);
         orders = OrderConsistencyChecker.checkOrderConsistency(orders, customers, products);
-        log.info("FUNCTION 4.1 - Load data from files: products.origin.csv, customers.origin.csv, orders.origin.csv successfully!");
+
+        String loaderPath = Paths.get(filePath, FileConstants.INPUT_CSV_SUB_FOLDER_PATH, "orders" + FileConstants.EDIT_CSV_FILE_EXTENSION).toString();
+        Map<Integer, Order> updateOrders = loadData("orders", loaderPath);
+        updateOrders = OrderConsistencyChecker.checkOrderConsistency(updateOrders, customers, products);
 
         OrderService orderService = new OrderServiceImpl();
-        String loaderPath = Paths.get(filePath, FileConstants.INPUT_CSV_SUB_FOLDER_PATH, "orders" + FileConstants.ORIGIN_CSV_FILE_EXTENSION).toString();
-        Map<Integer, OrderToAddDTO> newOrders = orderService.loadAddingFile(loaderPath);
-        newOrders = OrderConsistencyChecker.checkOrderToAddDTOConsistency(newOrders, customers, products);
-        log.info("FUNCTION 4.1 - Load data from products.new.csv successfully!");
-
-        orders = orderService.insert(filePath, orders, newOrders);
+        orders = orderService.update(filePath, orders, updateOrders);
         orderService.calculateTotalAmountForOrders(orders, products);
         saveData("orders", filePath, orders);
     }
@@ -54,6 +51,6 @@ public class AddOrderController implements IBaseController {
         IDataService<T> service = (IDataService<T>) services.get(type);
         String writerPath = Paths.get(filePath, FileConstants.OUTPUT_CSV_SUB_FOLDER_PATH, type + FileConstants.OUTPUT_CSV_FILE_EXTENSION).toString();
         service.saveFile(writerPath, data);
-        log.info("FUNCTION 4.1 - Load data to {}.output.csv successfully!", type);
+        log.info("FUNCTION 4.2 - Load data to {}.output.csv successfully!", type);
     }
 }
