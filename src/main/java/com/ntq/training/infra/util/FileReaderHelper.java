@@ -13,7 +13,7 @@ import java.util.*;
 @Slf4j
 public class FileReaderHelper {
 
-    public Map<Integer, List<String>> readCsvFile(String filePath) throws FileNotFoundException, IOException, CsvException {
+    public Map<Integer, List<String>> readCsvFile(String filePath) {
         Map<Integer, List<String>> records = new HashMap<>();
         try (CSVReader csvReader = new CSVReader(new FileReader(filePath))) {
             String[] values;
@@ -33,10 +33,8 @@ public class FileReaderHelper {
 
         } catch (FileNotFoundException e) {
             log.error("FILE READER ERROR: The file at path '{}' was not found.", filePath);
-            throw e;
         } catch (IOException | CsvException e) {
             log.error("FILE READER ERROR: Error reading file - {}.", e.getMessage());
-            throw e;
         }
         return records;
     }

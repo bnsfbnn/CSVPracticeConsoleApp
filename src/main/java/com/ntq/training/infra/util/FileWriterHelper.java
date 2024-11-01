@@ -21,10 +21,8 @@ public class FileWriterHelper {
             }
         } catch (FileNotFoundException e) {
             log.error("FILE WRITER ERROR: The file at path '{}' was not found.", filePath);
-            System.exit(0);
         } catch (IOException e) {
-            log.error("FILE READER ERROR: Error writing file - {}.", e.getMessage());
-            System.exit(0);
+            log.error("FILE WRITER ERROR: Error writing file - {}.", e.getMessage());
         }
     }
 }
