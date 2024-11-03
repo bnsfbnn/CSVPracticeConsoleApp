@@ -1,22 +1,13 @@
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 1001 in file products.origin.csv is missing values for columns: Id
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 1002 in file products.origin.csv is missing values for columns: Name
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 1003 in file products.origin.csv is missing values for columns: Price
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 1004 in file products.origin.csv is missing values for columns: StockAvailable
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 1005 in file products.origin.csv must have 4 columns, but found 3.
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 1011 in file products.origin.csv is missing values for columns: Id, Name
-2024-11-01 14:57:40 ERROR - PARSER VALIDATION ERROR: Row 1007 in the product input file has product price is negative.
-2024-11-01 14:57:40 ERROR - PARSER VALIDATION ERROR: Row 1008 in the product input file has an invalid format for product stock available.
-2024-11-01 14:57:40 ERROR - PARSER VALIDATION ERROR: Row 1009 in the product input file has product stock number is negative.
-2024-11-01 14:57:40 ERROR - PARSER VALIDATION ERROR: Row 1010 in the product input file has product price is negative.
-2024-11-01 14:57:40 ERROR - UNIQUE VALIDATION ERROR: Value Product at line P1000 in the 1006 file is duplicated, this line will not be added to the output file.
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 5000 in file customers.origin.csv is missing values for columns: Id
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 5001 in file customers.origin.csv is missing values for columns: Id, Name
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 5002 in file customers.origin.csv is missing values for columns: Name
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 5003 in file customers.origin.csv is missing values for columns: Email
-2024-11-01 14:57:40 ERROR - FILE VALIDATION ERROR: Row 5004 in file customers.origin.csv is missing values for columns: PhoneNumber
-2024-11-01 14:57:41 ERROR - PARSER VALIDATION ERROR: Row 5006 in the customer input file has email is invalid,phone number is invalid.
-2024-11-01 14:57:41 ERROR - PARSER VALIDATION ERROR: Row 5007 in the customer input file has phone number is invalid.
-2024-11-01 14:57:41 ERROR - PARSER VALIDATION ERROR: Row 5008 in the customer input file has email is invalid,phone number is invalid.
-2024-11-01 14:57:41 ERROR - UNIQUE VALIDATION ERROR: Value Customer at line 0328060523 in the 5010 file is duplicated, this line will not be added to the output file.
-2024-11-01 14:57:41 ERROR - UNIQUE VALIDATION ERROR: Value Customer at line CUS5000 in the 5009 file is duplicated, this line will not be added to the output file.
-2024-11-01 14:57:41 ERROR - UNIQUE VALIDATION ERROR: Value Customer at line w4q6d321@gmail.com in the 5011 file is duplicated, this line will not be added to the output file.
+2024-11-04 02:30:55 ERROR - FILE VALIDATION ERROR: Row 5001 in file orders.origin.csv is missing values for columns: Id
+2024-11-04 02:30:55 ERROR - FILE VALIDATION ERROR: Row 5002 in file orders.origin.csv is missing values for columns: CustomerID
+2024-11-04 02:30:55 ERROR - FILE VALIDATION ERROR: Row 5003 in file orders.origin.csv is missing values for columns: ProductQuantities
+2024-11-04 02:30:55 ERROR - FILE VALIDATION ERROR: Row 5004 in file orders.origin.csv is missing values for columns: OrderDate
+2024-11-04 02:30:55 ERROR - FILE VALIDATION ERROR: Row 5005 in file orders.origin.csv is missing values for columns: Id, CustomerID
+2024-11-04 02:30:55 ERROR - FILE VALIDATION ERROR: Row 5006 in file orders.origin.csv must have 4 columns, but found 3.
+2024-11-04 02:30:55 ERROR - FILE VALIDATION ERROR: Row 5007 in file orders.origin.csv must have 4 columns, but found 3.
+2024-11-04 02:30:55 ERROR - PARSER VALIDATION ERROR: Row 5008 in the order input file has product quantity is a negative number.
+2024-11-04 02:30:55 ERROR - PARSER VALIDATION ERROR: Row 5009 in the order input file has product quantity not a number.
+2024-11-04 02:30:55 ERROR - PARSER VALIDATION ERROR: Row 5010 in the order input file cannot parse product quantities.
+2024-11-04 02:30:55 ERROR - PARSER VALIDATION ERROR: Row 5011 in the order input file has duplicate product ID.
+2024-11-04 02:30:57 ERROR - CONSISTENCY VALIDATION ERROR: Order at line 5012 has invalid customerId: CUS9999
+2024-11-04 02:30:57 ERROR - CONSISTENCY VALIDATION ERROR: Order at line 5013 has invalid productQuantities: [P9999, P9998]

@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class OrderConsistencyChecker {
@@ -24,7 +26,6 @@ public class OrderConsistencyChecker {
                 log.error("CONSISTENCY VALIDATION ERROR: Order at line {} has invalid customerId: {}", lineIndex, order.getCustomerId());
                 continue;
             }
-
             if (!areProductIdsPresent(order.getProductQuantities(), products)) {
                 log.error("CONSISTENCY VALIDATION ERROR: Order at line {} has invalid productQuantities: {}", lineIndex, order.getProductQuantities().keySet());
                 continue;
@@ -46,9 +47,8 @@ public class OrderConsistencyChecker {
                 log.error("CONSISTENCY VALIDATION ERROR: Order at line {} has invalid customerId: {}", lineIndex, order.getCustomerId());
                 continue;
             }
-
             if (!areProductIdsPresent(order.getProductQuantities(), products)) {
-                log.error("CONSISTENCY VALIDATION ERROR: Order at line {} has invalid productQuantities: {}", lineIndex, order.getProductQuantities().keySet());
+                log.error("CONSISTENCY VALIDATION ERROR: Order at line {} has invalid productQuantities: {}", lineIndex, String.join(",", order.getProductQuantities().keySet()));
                 continue;
             }
             validOrders.put(lineIndex, order);
@@ -61,7 +61,9 @@ public class OrderConsistencyChecker {
     }
 
     private static boolean areProductIdsPresent(Map<String, Integer> productQuantities, Map<Integer, Product> products) {
-        return productQuantities.keySet().stream().allMatch(productId ->
-                products.values().stream().anyMatch(product -> product.getId().equals(productId)));
+        Set<String> productIds = products.values().stream()
+                .map(Product::getId)
+                .collect(Collectors.toSet());
+        return productQuantities.keySet().stream().allMatch(productIds::contains);
     }
 }

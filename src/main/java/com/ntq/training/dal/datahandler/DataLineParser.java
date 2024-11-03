@@ -95,22 +95,26 @@ public class DataLineParser {
                                     int quantity = Integer.parseInt(entry[1]);
                                     if (quantity <= 0) {
                                         log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity is a negative number.", rowIndex);
-                                        return -1;
+                                        throw new IllegalArgumentException();
                                     }
                                     return quantity;
                                 } catch (NumberFormatException e) {
                                     log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity not a number.", rowIndex);
-                                    return -1;
+                                    throw new IllegalArgumentException();
                                 }
                             },
-                            Integer::sum
+                            (existing, newQuantity) -> {
+                                log.error("PARSER VALIDATION ERROR: Row {} in the order input file has duplicate product ID.", rowIndex);
+                                throw new IllegalArgumentException();
+                            }
                     ));
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
         } catch (Exception e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in the order input file cannot parsing product quantities.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in the order input file cannot parse product quantities.", rowIndex);
             return Optional.empty();
         }
         productQuantities = productQuantities.entrySet().stream()
-                .filter(entry -> entry.getValue() != -1)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         OffsetDateTime orderDate;
         try {
@@ -171,25 +175,26 @@ public class DataLineParser {
                                     int quantity = Integer.parseInt(entry[1]);
                                     if (quantity <= 0) {
                                         log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity is a negative number.", rowIndex);
-                                        return -1;
+                                        throw new IllegalArgumentException();
                                     }
                                     return quantity;
                                 } catch (NumberFormatException e) {
                                     log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity not a number.", rowIndex);
-                                    return -1;
+                                    throw new IllegalArgumentException();
                                 }
                             },
-                            (e1, e2) -> {
-                                log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity not a number.", rowIndex);
-                                return null;
+                            (existing, newQuantity) -> {
+                                log.error("PARSER VALIDATION ERROR: Row {} in the order input file has duplicate product ID.", rowIndex);
+                                throw new IllegalArgumentException();
                             }
                     ));
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
         } catch (Exception e) {
             log.error("PARSER VALIDATION ERROR: Row {} in the order input file cannot parsing product quantities.", rowIndex);
             return Optional.empty();
         }
         productQuantities = productQuantities.entrySet().stream()
-                .filter(entry -> entry.getValue() != -1)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         OffsetDateTime orderDate;
         try {

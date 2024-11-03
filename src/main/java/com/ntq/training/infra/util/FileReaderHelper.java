@@ -26,7 +26,7 @@ public class FileReaderHelper {
                 int v = 0;
                 throw new FileValidationException();
             }
-            int rowIndex = 1;
+            int rowIndex = 2;
             Path path = Paths.get(filePath);
             while ((values = csvReader.readNext()) != null) {
                 if (isValidRowCheck) {
