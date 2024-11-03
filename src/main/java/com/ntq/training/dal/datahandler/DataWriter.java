@@ -9,7 +9,7 @@ import java.util.function.Function;
 public class DataWriter<T> {
     public void saveData(Map<Integer, T> entities, String filePath,
                          Function<T, List<String>> headersFunction,
-                         Function<T, List<String>> rowMapperFunction) {
+                         Function<T, List<String>> rowMapperFunction) throws Exception {
         FileWriterHelper fileWriterHelper = new FileWriterHelper();
         List<String> headers = headersFunction.apply(null);
         List<List<String>> records = entities.entrySet().stream()

@@ -13,7 +13,7 @@ import java.util.Map;
 @Slf4j
 public class EditProductHandler implements IBaseFunction {
     @Override
-    public void processFunction(String filePath) {
+    public void processFunction(String filePath) throws Exception {
         ProductService service = new ProductServiceImpl();
         String loaderPath = Paths.get(filePath, FileConstants.INPUT_CSV_SUB_FOLDER_PATH, "products" + FileConstants.ORIGIN_CSV_FILE_EXTENSION).toString();
         Map<Integer, Product> products = service.loadFile(loaderPath);

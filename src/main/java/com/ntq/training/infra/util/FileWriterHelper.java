@@ -10,7 +10,7 @@ import java.util.List;
 
 @Slf4j
 public class FileWriterHelper {
-    public void writeCsvFile(String filePath, List<String> headers, List<List<String>> records) {
+    public void writeCsvFile(String filePath, List<String> headers, List<List<String>> records) throws IOException {
         try (
                 FileWriter writer = new FileWriter(filePath);
                 CSVWriter csvWriter = new CSVWriter(writer, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)
@@ -21,8 +21,10 @@ public class FileWriterHelper {
             }
         } catch (FileNotFoundException e) {
             log.error("FILE WRITER ERROR: The file at path '{}' was not found.", filePath);
+            throw e;
         } catch (IOException e) {
             log.error("FILE WRITER ERROR: Error writing file - {}.", e.getMessage());
+            throw e;
         }
     }
 }

@@ -25,7 +25,7 @@ public class EditOrderHandler implements IBaseFunction {
     );
 
     @Override
-    public void processFunction(String filePath) {
+    public void processFunction(String filePath) throws Exception {
         Map<Integer, Product> products = loadData("products", filePath);
         Map<Integer, Customer> customers = loadData("customers", filePath);
         Map<Integer, Order> orders = loadData("orders", filePath);
@@ -41,13 +41,13 @@ public class EditOrderHandler implements IBaseFunction {
         saveData("orders", filePath, orders);
     }
 
-    private <T> Map<Integer, T> loadData(String type, String filePath) {
+    private <T> Map<Integer, T> loadData(String type, String filePath) throws Exception {
         IDataService<T> service = (IDataService<T>) services.get(type);
         String loaderPath = Paths.get(filePath, FileConstants.INPUT_CSV_SUB_FOLDER_PATH, type + FileConstants.ORIGIN_CSV_FILE_EXTENSION).toString();
         return service.loadFile(loaderPath);
     }
 
-    private <T> void saveData(String type, String filePath, Map<Integer, T> data) {
+    private <T> void saveData(String type, String filePath, Map<Integer, T> data) throws Exception {
         IDataService<T> service = (IDataService<T>) services.get(type);
         String writerPath = Paths.get(filePath, FileConstants.OUTPUT_CSV_SUB_FOLDER_PATH, type + FileConstants.OUTPUT_CSV_FILE_EXTENSION).toString();
         service.saveFile(writerPath, data);

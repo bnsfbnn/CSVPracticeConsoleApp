@@ -14,5 +14,5 @@ public interface ProductService extends IDataService<Product> {
 
     Map<Integer, Product> delete(String filePath, Map<Integer, Product> entities, Map<Integer, ProductToDeleteDTO> deleteEntities);
 
-    Map<Integer, ProductToDeleteDTO> loadDeletingFile(String filePath);
+    Map<Integer, ProductToDeleteDTO> loadDeletingFile(String filePath) throws Exception;
 }

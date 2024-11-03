@@ -34,14 +34,14 @@ public class DataLineParser {
         try {
             productPrice = new BigDecimal(line.get(FileConstants.ProductField.PRODUCT_PRICE.getIndex()));
         } catch (NumberFormatException e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in product file has an invalid format for product price.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in the product input file has an invalid format for product price.", rowIndex);
             return Optional.empty();
         }
         Integer productStockAvailable;
         try {
             productStockAvailable = Integer.parseInt(line.get(FileConstants.ProductField.PRODUCT_STOCK_AVAILABLE.getIndex()));
         } catch (NumberFormatException e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in product file has an invalid format for product stock available.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in the product input file has an invalid format for product stock available.", rowIndex);
             return Optional.empty();
         }
         Product rawProduct = Product.builder()
@@ -53,7 +53,7 @@ public class DataLineParser {
         ParserValidator<Product> productParserValidator = new ProductParserValidator();
         List<String> validationErrors = productParserValidator.validate(rawProduct);
         if (!validationErrors.isEmpty()) {
-            log.error("PARSER VALIDATION ERROR: Row {} in product file has {}.", rowIndex, validationErrors);
+            log.error("PARSER VALIDATION ERROR: Row {} in the product input file has {}.", rowIndex, String.join(",", validationErrors));
             return Optional.empty();
         }
         return Optional.of(rawProduct);
@@ -73,7 +73,7 @@ public class DataLineParser {
         ParserValidator<Customer> customerParserValidator = new CustomerParserValidator();
         List<String> validationErrors = customerParserValidator.validate(rawCustomer);
         if (!validationErrors.isEmpty()) {
-            log.error("PARSER VALIDATION ERROR: Row {} in customer file has {}.", rowIndex, validationErrors);
+            log.error("PARSER VALIDATION ERROR: Row {} in the customer input file has {}.", rowIndex, String.join(",", validationErrors));
             return Optional.empty();
         }
         return Optional.of(rawCustomer);
@@ -94,19 +94,19 @@ public class DataLineParser {
                                 try {
                                     int quantity = Integer.parseInt(entry[1]);
                                     if (quantity <= 0) {
-                                        log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity is a negative number.", rowIndex);
+                                        log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity is a negative number.", rowIndex);
                                         return -1;
                                     }
                                     return quantity;
                                 } catch (NumberFormatException e) {
-                                    log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity not a number.", rowIndex);
+                                    log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity not a number.", rowIndex);
                                     return -1;
                                 }
                             },
                             Integer::sum
                     ));
         } catch (Exception e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in order file cannot parsing product quantities.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in the order input file cannot parsing product quantities.", rowIndex);
             return Optional.empty();
         }
         productQuantities = productQuantities.entrySet().stream()
@@ -116,14 +116,14 @@ public class DataLineParser {
         try {
             orderDate = OffsetDateTime.parse(raw_orderDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         } catch (DateTimeParseException e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in order file is invalid date format for order date.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in the order input file is invalid date format for order date.", rowIndex);
             return Optional.empty();
         }
         BigDecimal totalAmount;
         try {
             totalAmount = new BigDecimal(BigInteger.ZERO);
         } catch (NumberFormatException e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in order file has an invalid format for total amount.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in the order input file has an invalid format for total amount.", rowIndex);
             return Optional.empty();
         }
         return Optional.of(Order.builder()
@@ -170,22 +170,22 @@ public class DataLineParser {
                                 try {
                                     int quantity = Integer.parseInt(entry[1]);
                                     if (quantity <= 0) {
-                                        log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity is a negative number.", rowIndex);
+                                        log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity is a negative number.", rowIndex);
                                         return -1;
                                     }
                                     return quantity;
                                 } catch (NumberFormatException e) {
-                                    log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity not a number.", rowIndex);
+                                    log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity not a number.", rowIndex);
                                     return -1;
                                 }
                             },
                             (e1, e2) -> {
-                                log.error("PARSER VALIDATION ERROR: Row {} in order file has product quantity not a number.", rowIndex);
+                                log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity not a number.", rowIndex);
                                 return null;
                             }
                     ));
         } catch (Exception e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in order file cannot parsing product quantities.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in the order input file cannot parsing product quantities.", rowIndex);
             return Optional.empty();
         }
         productQuantities = productQuantities.entrySet().stream()
@@ -195,7 +195,7 @@ public class DataLineParser {
         try {
             orderDate = OffsetDateTime.parse(raw_orderDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         } catch (DateTimeParseException e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in order file is invalid date format for order date.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in the order input file is invalid date format for order date.", rowIndex);
             return Optional.empty();
         }
         BigDecimal totalAmount;

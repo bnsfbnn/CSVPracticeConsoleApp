@@ -14,7 +14,7 @@ import java.util.Map;
 public class AddProductHandler implements IBaseFunction {
 
     @Override
-    public void processFunction(String filePath) {
+    public void processFunction(String filePath) throws Exception {
         ProductService service = new ProductServiceImpl();
         String loaderPath = Paths.get(filePath, FileConstants.INPUT_CSV_SUB_FOLDER_PATH, "products" + FileConstants.ORIGIN_CSV_FILE_EXTENSION).toString();
         Map<Integer, Product> products = service.loadFile(loaderPath);
@@ -25,5 +25,6 @@ public class AddProductHandler implements IBaseFunction {
         products = service.insert(filePath, products, newProducts);
         String writerPath = Paths.get(filePath, FileConstants.OUTPUT_CSV_SUB_FOLDER_PATH, "products" + FileConstants.OUTPUT_CSV_FILE_EXTENSION).toString();
         service.saveFile(writerPath, products);
+
     }
 }

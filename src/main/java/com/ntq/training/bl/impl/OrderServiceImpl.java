@@ -20,17 +20,17 @@ import java.util.function.Function;
 public class OrderServiceImpl implements OrderService {
 
     @Override
-    public Map<Integer, Order> loadFile(String filePath) {
+    public Map<Integer, Order> loadFile(String filePath) throws Exception {
         DataLoader<Order> dataLoader = new DataLoader<>();
         UniqueValidator<Order> uniqueValidator = new UniqueValidator<>();
-        Map<Integer, Order> orderMap = dataLoader.loadData(filePath, DataLineParser.mapToOrder);
+        Map<Integer, Order> orderMap = dataLoader.loadData(filePath, DataLineParser.mapToOrder, true);
         Function<Order, String> uniquenessCustomerIdExtractor = Order::getId;
         orderMap = uniqueValidator.validate(orderMap, uniquenessCustomerIdExtractor, Order.class);
         return orderMap;
     }
 
     @Override
-    public void saveFile(String filePath, Map<Integer, Order> orders) {
+    public void saveFile(String filePath, Map<Integer, Order> orders) throws Exception {
         DataWriter<Order> dataWriter = new DataWriter<>();
         dataWriter.saveData(orders, filePath, DataLineWriter.getOrderHeaders, DataLineWriter.getOrderRowMapper());
     }
@@ -98,15 +98,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Map<Integer, OrderToAddDTO> loadAddingFile(String filePath) {
+    public Map<Integer, OrderToAddDTO> loadAddingFile(String filePath) throws Exception {
         DataLoader<OrderToAddDTO> dataLoader = new DataLoader<>();
-        return dataLoader.loadData(filePath, DataLineParser.mapToAddingOrder);
+        return dataLoader.loadData(filePath, DataLineParser.mapToAddingOrder, true);
+
     }
 
     @Override
-    public Map<Integer, OrderToDeleteDTO> loadDeletingFile(String filePath) {
+    public Map<Integer, OrderToDeleteDTO> loadDeletingFile(String filePath) throws Exception {
         DataLoader<OrderToDeleteDTO> dataLoader = new DataLoader<>();
-        return dataLoader.loadData(filePath, DataLineParser.mapToDeletingOrder);
+        return dataLoader.loadData(filePath, DataLineParser.mapToDeletingOrder, false);
     }
 
 

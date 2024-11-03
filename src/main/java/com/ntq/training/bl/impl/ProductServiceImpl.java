@@ -18,27 +18,27 @@ import java.util.function.Function;
 public class ProductServiceImpl implements ProductService {
 
     @Override
-    public Map<Integer, Product> loadFile(String filePath) {
+    public Map<Integer, Product> loadFile(String filePath) throws Exception {
         DataLoader<Product> dataLoader = new DataLoader<>();
         UniqueValidator<Product> uniqueValidator = new UniqueValidator<>();
-        Map<Integer, Product> productMap = dataLoader.loadData(filePath, DataLineParser.mapToProduct);
+        Map<Integer, Product> productMap = dataLoader.loadData(filePath, DataLineParser.mapToProduct, true);
         Function<Product, String> uniquenessProductIdExtractor = Product::getId;
         productMap = uniqueValidator.validate(productMap, uniquenessProductIdExtractor, Product.class);
         return productMap;
     }
 
     @Override
-    public Map<Integer, ProductToDeleteDTO> loadDeletingFile(String filePath) {
+    public Map<Integer, ProductToDeleteDTO> loadDeletingFile(String filePath) throws Exception {
         DataLoader<ProductToDeleteDTO> dataLoader = new DataLoader<>();
         UniqueValidator<ProductToDeleteDTO> uniqueValidator = new UniqueValidator<>();
-        Map<Integer, ProductToDeleteDTO> productMap = dataLoader.loadData(filePath, DataLineParser.mapToDeletingProduct);
+        Map<Integer, ProductToDeleteDTO> productMap = dataLoader.loadData(filePath, DataLineParser.mapToDeletingProduct, true);
         Function<ProductToDeleteDTO, String> uniquenessProductIdExtractor = ProductToDeleteDTO::getId;
         productMap = uniqueValidator.validate(productMap, uniquenessProductIdExtractor, ProductToDeleteDTO.class);
         return productMap;
     }
 
     @Override
-    public void saveFile(String filePath, Map<Integer, Product> products) {
+    public void saveFile(String filePath, Map<Integer, Product> products) throws Exception {
         DataWriter<Product> dataWriter = new DataWriter<>();
         dataWriter.saveData(products, filePath, DataLineWriter.getProductHeaders, DataLineWriter.getProductRowMapper());
     }

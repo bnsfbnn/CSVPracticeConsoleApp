@@ -15,9 +15,9 @@ public interface OrderService extends IDataService<Order> {
 
     Map<Integer, Order> delete(String filePath, Map<Integer, Order> entities, Map<Integer, OrderToDeleteDTO> deleteEntities);
 
-    Map<Integer, OrderToAddDTO> loadAddingFile(String filePath);
+    Map<Integer, OrderToAddDTO> loadAddingFile(String filePath) throws Exception;
 
-    Map<Integer, OrderToDeleteDTO> loadDeletingFile(String filePath);
+    Map<Integer, OrderToDeleteDTO> loadDeletingFile(String filePath) throws Exception;
 
     void calculateTotalAmountForOrders(Map<Integer, Order> orders, Map<Integer, Product> products);
 }

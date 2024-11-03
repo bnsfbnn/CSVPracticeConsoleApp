@@ -20,10 +20,10 @@ public class CustomerServiceImpl implements CustomerService {
     Map<String, Integer> phoneNumberToIdMap = new HashMap<>();
 
     @Override
-    public Map<Integer, Customer> loadFile(String filePath) {
+    public Map<Integer, Customer> loadFile(String filePath) throws Exception {
         DataLoader<Customer> dataLoader = new DataLoader<>();
         UniqueValidator<Customer> uniqueValidator = new UniqueValidator<>();
-        Map<Integer, Customer> customerMap = dataLoader.loadData(filePath, DataLineParser.mapToCustomer);
+        Map<Integer, Customer> customerMap = dataLoader.loadData(filePath, DataLineParser.mapToCustomer, true);
         Function<Customer, String> uniquenessCustomerPhoneNumberExtractor = Customer::getPhoneNumber;
         customerMap = uniqueValidator.validate(customerMap, uniquenessCustomerPhoneNumberExtractor, Customer.class);
         Function<Customer, String> uniquenessCustomerIdExtractor = Customer::getId;
@@ -34,17 +34,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Map<Integer, CustomerToDeleteDTO> loadDeletingFile(String filePath) {
+    public Map<Integer, CustomerToDeleteDTO> loadDeletingFile(String filePath) throws Exception {
         DataLoader<CustomerToDeleteDTO> dataLoader = new DataLoader<>();
         UniqueValidator<CustomerToDeleteDTO> uniqueValidator = new UniqueValidator<>();
-        Map<Integer, CustomerToDeleteDTO> customerMap = dataLoader.loadData(filePath, DataLineParser.mapToDeletingCustomer);
+        Map<Integer, CustomerToDeleteDTO> customerMap = dataLoader.loadData(filePath, DataLineParser.mapToDeletingCustomer, true);
         Function<CustomerToDeleteDTO, String> uniquenessCustomerPhoneNumberExtractor = CustomerToDeleteDTO::getPhoneNumber;
         customerMap = uniqueValidator.validate(customerMap, uniquenessCustomerPhoneNumberExtractor, CustomerToDeleteDTO.class);
         return customerMap;
     }
 
     @Override
-    public void saveFile(String filePath, Map<Integer, Customer> customers) {
+    public void saveFile(String filePath, Map<Integer, Customer> customers) throws Exception {
         DataWriter<Customer> dataWriter = new DataWriter<>();
         dataWriter.saveData(customers, filePath, DataLineWriter.getCustomerHeaders, DataLineWriter.getCustomerRowMapper());
     }

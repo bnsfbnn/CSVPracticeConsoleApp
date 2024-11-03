@@ -4,7 +4,7 @@ import com.ntq.training.pl.IBaseFunction;
 
 public class SearchTopProductHandler implements IBaseFunction {
     @Override
-    public void processFunction(String filePath) {
+    public void processFunction(String filePath) throws Exception {
 
     }
 }
