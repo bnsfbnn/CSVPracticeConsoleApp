@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     public Map<Integer, ProductToDeleteDTO> loadDeletingFile(String filePath) throws Exception {
         DataLoader<ProductToDeleteDTO> dataLoader = new DataLoader<>();
         UniqueValidator<ProductToDeleteDTO> uniqueValidator = new UniqueValidator<>();
-        Map<Integer, ProductToDeleteDTO> productMap = dataLoader.loadData(filePath, DataLineParser.mapToDeletingProduct, true);
+        Map<Integer, ProductToDeleteDTO> productMap = dataLoader.loadData(filePath, DataLineParser.mapToProductToDeleteDTO, true);
         Function<ProductToDeleteDTO, String> uniquenessProductIdExtractor = ProductToDeleteDTO::getId;
         productMap = uniqueValidator.validate(productMap, uniquenessProductIdExtractor, ProductToDeleteDTO.class);
         return productMap;
@@ -45,16 +45,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Map<Integer, Product> insert(String filePath, Map<Integer, Product> products, Map<Integer, Product> newProducts) {
-        for (Map.Entry<Integer, Product> entry : newProducts.entrySet()) {
-            Integer line = entry.getKey();
-            Product newProduct = entry.getValue();
+        int maxLine = products.keySet().stream()
+                .mapToInt(Integer::intValue)
+                .max()
+                .orElse(0);
+        for (Product newProduct : newProducts.values()) {
             String newProductId = newProduct.getId();
             boolean productExists = products.values().stream()
                     .anyMatch(existingProduct -> existingProduct.getId().equals(newProductId));
             if (!productExists) {
-                products.put(line, newProduct);
+                products.put(++maxLine, newProduct);
             } else {
-                log.error("FUNCTION 2.1 - Product with ID: {} already exists and will not be added again.", newProductId);
+                log.error("FUNCTION 2.1 ERROR - Product with ID {} already exists and will not be added again.", newProductId);
             }
         }
         return products;
@@ -62,9 +64,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Map<Integer, Product> update(String filePath, Map<Integer, Product> products, Map<Integer, Product> updateProducts) {
-        for (Map.Entry<Integer, Product> entry : updateProducts.entrySet()) {
-            Integer line = entry.getKey();
-            Product updateProduct = entry.getValue();
+        for (Product updateProduct : updateProducts.values()) {
             String updateProductId = updateProduct.getId();
             Optional<Map.Entry<Integer, Product>> existingProductEntry = products.entrySet().stream()
                     .filter(e -> e.getValue().getId().equals(updateProductId))
@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
                 existingProduct.setPrice(updateProduct.getPrice());
                 existingProduct.setStockQuantity(updateProduct.getStockQuantity());
             } else {
-                log.error("FUNCTION 2.2 - Product with ID: {} does not exist and cannot be updated.", updateProductId);
+                log.error("FUNCTION 2.2 ERROR - Product with ID {} does not exist and cannot be updated.", updateProductId);
             }
         }
         return products;
@@ -83,8 +83,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Map<Integer, Product> delete(String filePath, Map<Integer, Product> products, Map<Integer, ProductToDeleteDTO> deleteProducts) {
-        for (Map.Entry<Integer, ProductToDeleteDTO> entry : deleteProducts.entrySet()) {
-            ProductToDeleteDTO deleteProduct = entry.getValue();
+        for (ProductToDeleteDTO deleteProduct : deleteProducts.values()) {
             String deleteProductId = deleteProduct.getId();
             boolean productExists = products.values().stream()
                     .anyMatch(existingProduct -> existingProduct.getId().equals(deleteProductId));
@@ -96,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
                     products.remove(entryToRemove.getKey());
                 });
             } else {
-                log.error("FUNCTION 2.3 - Product with ID: {} does not exist and cannot be deleted.", deleteProductId);
+                log.error("FUNCTION 2.3 ERROR - Product with ID {} does not exist and cannot be deleted.", deleteProductId);
             }
         }
         return products;

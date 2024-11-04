@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Slf4j
 public class App {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         if (args.length < 2) {
             System.out.println("Usage: java App <functionCode> <filePath>");
             return;
@@ -36,7 +36,7 @@ public class App {
             try {
                 baseFunction.processFunction(filePath);
             } catch (Exception e) {
-                System.exit(0);
+                System.exit(1);
             }
         } else {
             System.out.println("Invalid function code.");

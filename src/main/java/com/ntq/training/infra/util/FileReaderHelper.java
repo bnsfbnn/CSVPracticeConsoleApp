@@ -1,6 +1,5 @@
 package com.ntq.training.infra.util;
 
-import com.ntq.training.infra.exception.FileValidationException;
 import com.ntq.training.infra.validator.FileValidator;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
@@ -16,19 +15,20 @@ import java.util.*;
 @Slf4j
 public class FileReaderHelper {
 
-    public Map<Integer, List<String>> readCsvFile(String filePath, Boolean isValidRowCheck) throws IOException, CsvException, FileValidationException {
+    public Map<Integer, List<String>> readCsvFile(String filePath, Boolean isValidRowCheck) throws IOException, CsvException {
         Map<Integer, List<String>> records = new HashMap<>();
         try (CSVReader csvReader = new CSVReader(new FileReader(filePath))) {
             String[] values;
             String[] header = csvReader.readNext();
-            if (!FileValidator.isValidHeader(header)) {
-                log.error("FILE VALIDATION ERROR: The file is empty or has no header.");
-                int v = 0;
-                throw new FileValidationException();
-            }
-            int rowIndex = 2;
+            int rowIndex = 1;
             Path path = Paths.get(filePath);
             while ((values = csvReader.readNext()) != null) {
+                values = Arrays.stream(values)
+                        .map(String::trim)
+                        .toArray(String[]::new);
+                if (values.length == 0 || Arrays.stream(values).allMatch(String::isEmpty)) {
+                    continue;
+                }
                 if (isValidRowCheck) {
                     if (!FileValidator.isValidRow(path.getFileName().toString(), rowIndex, header, values)) {
                         ++rowIndex;

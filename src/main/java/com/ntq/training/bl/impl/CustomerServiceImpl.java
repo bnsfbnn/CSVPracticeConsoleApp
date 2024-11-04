@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Map<Integer, CustomerToDeleteDTO> loadDeletingFile(String filePath) throws Exception {
         DataLoader<CustomerToDeleteDTO> dataLoader = new DataLoader<>();
         UniqueValidator<CustomerToDeleteDTO> uniqueValidator = new UniqueValidator<>();
-        Map<Integer, CustomerToDeleteDTO> customerMap = dataLoader.loadData(filePath, DataLineParser.mapToDeletingCustomer, true);
+        Map<Integer, CustomerToDeleteDTO> customerMap = dataLoader.loadData(filePath, DataLineParser.mapToCustomerToDeleteDTO, true);
         Function<CustomerToDeleteDTO, String> uniquenessCustomerPhoneNumberExtractor = CustomerToDeleteDTO::getPhoneNumber;
         customerMap = uniqueValidator.validate(customerMap, uniquenessCustomerPhoneNumberExtractor, CustomerToDeleteDTO.class);
         return customerMap;
@@ -62,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
                 boolean emailExists = customers.values().stream()
                         .anyMatch(customer -> customer.getEmail().equals(newCustomer.getEmail()));
                 if (emailExists) {
-                    log.error("FUNCTION 3.2 - Cannot update customer. Email {} already exists.", newCustomer.getEmail());
+                    log.error("FUNCTION 3.2 ERROR - Cannot update customer. Email {} already exists.", newCustomer.getEmail());
                 } else {
                     Integer existingId = phoneNumberToIdMap.get(newCustomerPhoneNumber);
                     Customer existingCustomer = customers.get(existingId);
@@ -91,7 +91,7 @@ public class CustomerServiceImpl implements CustomerService {
                 boolean emailExists = customers.values().stream()
                         .anyMatch(customer -> customer.getEmail().equals(updateCustomer.getEmail()));
                 if (emailExists) {
-                    log.error("FUNCTION 3.3 - Cannot update customer. Email {} already exists.", updateCustomer.getEmail());
+                    log.error("FUNCTION 3.3 ERROR - Cannot update customer. Email {} already exists.", updateCustomer.getEmail());
                 } else {
                     Integer existingId = phoneNumberToIdMap.get(updateCustomerPhoneNumber);
                     Customer existingCustomer = customers.get(existingId);
@@ -100,7 +100,7 @@ public class CustomerServiceImpl implements CustomerService {
                     existingCustomer.setEmail(updateCustomer.getEmail());
                 }
             } else {
-                log.error("FUNCTION 3.3 - Customer with phone number {} does not exist and cannot be updated.", updateCustomerPhoneNumber);
+                log.error("FUNCTION 3.3 ERROR - Customer with phone number {} does not exist and cannot be updated.", updateCustomerPhoneNumber);
             }
         }
         return customers;
@@ -108,20 +108,22 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Map<Integer, Customer> delete(String filePath, Map<Integer, Customer> customers, Map<Integer, CustomerToDeleteDTO> deleteCustomers) {
-        for (Map.Entry<Integer, CustomerToDeleteDTO> entry : deleteCustomers.entrySet()) {
-            CustomerToDeleteDTO deleteCustomer = entry.getValue();
-            String deleteCustomerId = deleteCustomer.getPhoneNumber();
+        for (CustomerToDeleteDTO deleteCustomer : deleteCustomers.values()) {
+            String deleteCustomerPhoneNumber = deleteCustomer.getPhoneNumber();
+            Optional<Map.Entry<Integer, Customer>> existingCustomerEntry = customers.entrySet().stream()
+                    .filter(e -> e.getValue().getId().equals(deleteCustomerPhoneNumber))
+                    .findFirst();
             boolean customerExists = customers.values().stream()
-                    .anyMatch(existingCustomer -> existingCustomer.getPhoneNumber().equals(deleteCustomerId));
+                    .anyMatch(existingCustomer -> existingCustomer.getPhoneNumber().equals(deleteCustomerPhoneNumber));
             if (customerExists) {
                 Optional<Map.Entry<Integer, Customer>> existingCustomerEntry = customers.entrySet().stream()
-                        .filter(e -> e.getValue().getId().equals(deleteCustomerId))
+                        .filter(e -> e.getValue().getId().equals(deleteCustomerPhoneNumber))
                         .findFirst();
                 existingCustomerEntry.ifPresent(entryToRemove -> {
                     customers.remove(entryToRemove.getKey());
                 });
             } else {
-                log.error("FUNCTION 3.1 - Customer with ID: {} does not exist and cannot be deleted.", deleteCustomerId);
+                log.error("FUNCTION 3.1 ERROR - Customer with ID {} does not exist and cannot be deleted.", deleteCustomerPhoneNumber);
             }
         }
         return customers;

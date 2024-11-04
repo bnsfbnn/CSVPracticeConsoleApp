@@ -100,14 +100,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Map<Integer, OrderToAddDTO> loadAddingFile(String filePath) throws Exception {
         DataLoader<OrderToAddDTO> dataLoader = new DataLoader<>();
-        return dataLoader.loadData(filePath, DataLineParser.mapToAddingOrder, true);
+        return dataLoader.loadData(filePath, DataLineParser.mapToOrderToAddDTO, true);
 
     }
 
     @Override
     public Map<Integer, OrderToDeleteDTO> loadDeletingFile(String filePath) throws Exception {
         DataLoader<OrderToDeleteDTO> dataLoader = new DataLoader<>();
-        return dataLoader.loadData(filePath, DataLineParser.mapToDeletingOrder, false);
+        return dataLoader.loadData(filePath, DataLineParser.mapToOrderToDeleteDTO, false);
     }
 
 

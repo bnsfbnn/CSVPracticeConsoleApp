@@ -22,7 +22,7 @@ public class UniqueValidator<T> {
 
             if (seenValues.contains(uniqueValue)) {
                 String objectName = objectClass.getSimpleName();
-                log.error("UNIQUE VALIDATION ERROR: Value {} at line {} in the {} input file is duplicated, this line will not be added to the output file.", uniqueValue, lineNumber, objectName.toLowerCase());
+                log.error("UNIQUE VALIDATION ERROR: Row {} in the {} input file is duplicated at value {} , this line will not be added to the output file.", lineNumber, objectName.toLowerCase(), uniqueValue);
             } else {
                 seenValues.add(uniqueValue);
                 validatedEntities.put(lineNumber, entity);
