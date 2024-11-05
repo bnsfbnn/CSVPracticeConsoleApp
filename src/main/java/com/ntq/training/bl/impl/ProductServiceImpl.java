@@ -51,12 +51,11 @@ public class ProductServiceImpl implements ProductService {
                 .orElse(0);
         for (Product newProduct : newProducts.values()) {
             String newProductId = newProduct.getId();
-            boolean productExists = products.values().stream()
-                    .anyMatch(existingProduct -> existingProduct.getId().equals(newProductId));
-            if (!productExists) {
-                products.put(++maxLine, newProduct);
-            } else {
+            Optional<Map.Entry<Integer, Product>> existingProductEntry = findProductEntryById(products, newProductId);
+            if (existingProductEntry.isPresent()) {
                 log.error("FUNCTION 2.1 ERROR - Product with ID {} already exists and will not be added again.", newProductId);
+            } else {
+                products.put(++maxLine, newProduct);
             }
         }
         return products;
@@ -66,9 +65,7 @@ public class ProductServiceImpl implements ProductService {
     public Map<Integer, Product> update(String filePath, Map<Integer, Product> products, Map<Integer, Product> updateProducts) {
         for (Product updateProduct : updateProducts.values()) {
             String updateProductId = updateProduct.getId();
-            Optional<Map.Entry<Integer, Product>> existingProductEntry = products.entrySet().stream()
-                    .filter(e -> e.getValue().getId().equals(updateProductId))
-                    .findFirst();
+            Optional<Map.Entry<Integer, Product>> existingProductEntry = findProductEntryById(products, updateProductId);
             if (existingProductEntry.isPresent()) {
                 Product existingProduct = existingProductEntry.get().getValue();
                 existingProduct.setName(updateProduct.getName());
@@ -85,19 +82,19 @@ public class ProductServiceImpl implements ProductService {
     public Map<Integer, Product> delete(String filePath, Map<Integer, Product> products, Map<Integer, ProductToDeleteDTO> deleteProducts) {
         for (ProductToDeleteDTO deleteProduct : deleteProducts.values()) {
             String deleteProductId = deleteProduct.getId();
-            boolean productExists = products.values().stream()
-                    .anyMatch(existingProduct -> existingProduct.getId().equals(deleteProductId));
-            if (productExists) {
-                Optional<Map.Entry<Integer, Product>> existingProductEntry = products.entrySet().stream()
-                        .filter(e -> e.getValue().getId().equals(deleteProductId))
-                        .findFirst();
-                existingProductEntry.ifPresent(entryToRemove -> {
-                    products.remove(entryToRemove.getKey());
-                });
+            Optional<Map.Entry<Integer, Product>> existingProductEntry = findProductEntryById(products, deleteProductId);
+            if (existingProductEntry.isPresent()) {
+                products.remove(existingProductEntry.get().getKey());
             } else {
                 log.error("FUNCTION 2.3 ERROR - Product with ID {} does not exist and cannot be deleted.", deleteProductId);
             }
         }
         return products;
+    }
+
+    private Optional<Map.Entry<Integer, Product>> findProductEntryById(Map<Integer, Product> products, String productId) {
+        return products.entrySet().stream()
+                .filter(e -> e.getValue().getId().equals(productId))
+                .findFirst();
     }
 }
