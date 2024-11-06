@@ -7,15 +7,18 @@ import com.ntq.training.dal.datahandler.DataLoader;
 import com.ntq.training.dal.datahandler.DataWriter;
 import com.ntq.training.dal.dto.OrderToAddDTO;
 import com.ntq.training.dal.dto.OrderToDeleteDTO;
+import com.ntq.training.dal.dto.ProductOnlyIdDTO;
 import com.ntq.training.dal.entity.Order;
 import com.ntq.training.dal.entity.Product;
 import com.ntq.training.infra.validator.UniqueValidator;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class OrderServiceImpl implements OrderService {
@@ -37,7 +40,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Map<Integer, Order> insert(String filePath, Map<Integer, Order> orders, Map<Integer, OrderToAddDTO> newOrders) {
+    public Map<Integer, Order> insert(String filePath, Map<Integer, Order> orders,
+                                      Map<Integer, OrderToAddDTO> newOrders) {
         int maxOrderId = orders.values().stream()
                 .map(Order::getId)
                 .filter(id -> id.startsWith("ORD"))
@@ -69,14 +73,16 @@ public class OrderServiceImpl implements OrderService {
             if (orders.values().stream().anyMatch(order -> order.getId().equals(updateOrderId))) {
                 orders.replace(rowIndex, updateOrder);
             } else {
-                log.error("FUNCTION 4.3 ERROR - Order at line {} with orderId {} does not exist in current orders.", rowIndex, updateOrderId);
+                log.error("FUNCTION 4.3 ERROR - Order at line {} with orderId {} does not exist in current orders.",
+                        rowIndex, updateOrderId);
             }
         }
         return orders;
     }
 
     @Override
-    public Map<Integer, Order> delete(String filePath, Map<Integer, Order> orders, Map<Integer, OrderToDeleteDTO> deleteOrders) {
+    public Map<Integer, Order> delete(String filePath, Map<Integer, Order> orders,
+                                      Map<Integer, OrderToDeleteDTO> deleteOrders) {
         for (Map.Entry<Integer, OrderToDeleteDTO> entry : deleteOrders.entrySet()) {
             Integer rowIndex = entry.getKey();
             OrderToDeleteDTO deleteOrder = entry.getValue();
@@ -85,7 +91,9 @@ public class OrderServiceImpl implements OrderService {
             if (existingOrderEntry.isPresent()) {
                 orders.remove(existingOrderEntry.get().getKey());
             } else {
-                log.error("FUNCTION 4.3 ERROR - Order at line {} with orderId {} in the orders.delete.csv does not exist in the current order list.", rowIndex, deleteOrderId);
+                log.error(
+                        "FUNCTION 4.3 ERROR - Order at line {} with orderId {} in the orders.delete.csv does not exist in the current order list.",
+                        rowIndex, deleteOrderId);
             }
         }
         return orders;
@@ -104,7 +112,6 @@ public class OrderServiceImpl implements OrderService {
         return dataLoader.loadData(filePath, DataLineParser.mapToOrderToDeleteDTO, false);
     }
 
-
     @Override
     public void calculateTotalAmountForOrders(Map<Integer, Order> orders, Map<Integer, Product> products) {
         for (Order order : orders.values()) {
@@ -120,6 +127,19 @@ public class OrderServiceImpl implements OrderService {
             }
             order.setTotalAmount(totalAmount);
         }
+    }
+
+    @Override
+    public Map<Integer, Order> searchOrderByProductId(Map<Integer, Order> orders,
+                                                      Map<Integer, ProductOnlyIdDTO> searchProductIds) {
+        List<String> productIdsToSearch = searchProductIds.values().stream()
+                .map(ProductOnlyIdDTO::getId)
+                .toList();
+
+        return orders.entrySet().stream()
+                .filter(entry -> entry.getValue().getProductQuantities().keySet().stream()
+                        .anyMatch(productIdsToSearch::contains))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     private Optional<Product> findProductById(Map<Integer, Product> products, String productId) {

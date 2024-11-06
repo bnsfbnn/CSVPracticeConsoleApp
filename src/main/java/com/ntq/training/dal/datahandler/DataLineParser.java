@@ -2,7 +2,7 @@ package com.ntq.training.dal.datahandler;
 
 import com.ntq.training.dal.dto.OrderToAddDTO;
 import com.ntq.training.dal.dto.OrderToDeleteDTO;
-import com.ntq.training.dal.dto.ProductToDeleteDTO;
+import com.ntq.training.dal.dto.ProductOnlyIdDTO;
 import com.ntq.training.dal.dto.CustomerToDeleteDTO;
 import com.ntq.training.dal.entity.Customer;
 import com.ntq.training.dal.entity.Order;
@@ -139,9 +139,9 @@ public class DataLineParser {
                 .build());
     };
 
-    public static BiFunction<Integer, List<String>, Optional<ProductToDeleteDTO>> mapToProductToDeleteDTO = (rowIndex, line) -> {
-        String productId = line.get(FileConstants.ProductToDeleteField.PRODUCT_ID.getIndex());
-        return Optional.of(ProductToDeleteDTO.builder()
+    public static BiFunction<Integer, List<String>, Optional<ProductOnlyIdDTO>> mapToProductOnlyIdDTO = (rowIndex, line) -> {
+        String productId = line.get(FileConstants.ProductOnlyIdField.PRODUCT_ID.getIndex());
+        return Optional.of(ProductOnlyIdDTO.builder()
                 .id(productId)
                 .build());
     };
@@ -174,24 +174,24 @@ public class DataLineParser {
                                 try {
                                     int quantity = Integer.parseInt(entry[1]);
                                     if (quantity <= 0) {
-                                        log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity is a negative number.", rowIndex);
+                                        log.error("PARSER VALIDATION ERROR: Row {} in the orders.new.csv file has product quantity is a negative number.", rowIndex);
                                         throw new IllegalArgumentException();
                                     }
                                     return quantity;
                                 } catch (NumberFormatException e) {
-                                    log.error("PARSER VALIDATION ERROR: Row {} in the order input file has product quantity not a number.", rowIndex);
+                                    log.error("PARSER VALIDATION ERROR: Row {} in the orders.new.csv file has product quantity not a number.", rowIndex);
                                     throw new IllegalArgumentException();
                                 }
                             },
                             (existing, newQuantity) -> {
-                                log.error("PARSER VALIDATION ERROR: Row {} in the order input file has duplicate product ID.", rowIndex);
+                                log.error("PARSER VALIDATION ERROR: Row {} in the orders.new.csv file has duplicate product ID.", rowIndex);
                                 throw new IllegalArgumentException();
                             }
                     ));
         } catch (IllegalArgumentException e) {
             return Optional.empty();
         } catch (Exception e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in the order input file cannot parsing product quantities.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in the orders.new.csv file cannot parsing product quantities.", rowIndex);
             return Optional.empty();
         }
         productQuantities = productQuantities.entrySet().stream()
@@ -200,14 +200,14 @@ public class DataLineParser {
         try {
             orderDate = OffsetDateTime.parse(raw_orderDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         } catch (DateTimeParseException e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in the order input file is invalid date format for order date.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in the orders.new.csv file is invalid date format for order date.", rowIndex);
             return Optional.empty();
         }
         BigDecimal totalAmount;
         try {
             totalAmount = new BigDecimal(BigInteger.ZERO);
         } catch (NumberFormatException e) {
-            log.error("PARSER VALIDATION ERROR: Row {} in order file has an invalid format for total amount.", rowIndex);
+            log.error("PARSER VALIDATION ERROR: Row {} in orders.new.csv file has an invalid format for total amount.", rowIndex);
             return Optional.empty();
         }
         return Optional.of(OrderToAddDTO.builder()

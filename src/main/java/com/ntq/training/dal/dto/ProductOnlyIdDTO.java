@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class ProductToDeleteDTO {
+public class ProductOnlyIdDTO {
     private String id;
 }

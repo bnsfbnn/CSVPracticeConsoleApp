@@ -3,7 +3,7 @@ package com.ntq.training.bl.impl;
 import com.ntq.training.bl.ProductService;
 import com.ntq.training.dal.datahandler.DataLoader;
 import com.ntq.training.dal.datahandler.DataWriter;
-import com.ntq.training.dal.dto.ProductToDeleteDTO;
+import com.ntq.training.dal.dto.ProductOnlyIdDTO;
 import com.ntq.training.dal.entity.Order;
 import com.ntq.training.dal.entity.Product;
 import com.ntq.training.dal.datahandler.DataLineParser;
@@ -32,13 +32,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Map<Integer, ProductToDeleteDTO> loadDeletingFile(String filePath) throws Exception {
-        DataLoader<ProductToDeleteDTO> dataLoader = new DataLoader<>();
-        UniqueValidator<ProductToDeleteDTO> uniqueValidator = new UniqueValidator<>();
-        Map<Integer, ProductToDeleteDTO> productMap = dataLoader.loadData(filePath,
-                DataLineParser.mapToProductToDeleteDTO, true);
-        Function<ProductToDeleteDTO, String> uniquenessProductIdExtractor = ProductToDeleteDTO::getId;
-        productMap = uniqueValidator.validate(productMap, uniquenessProductIdExtractor, ProductToDeleteDTO.class);
+    public Map<Integer, ProductOnlyIdDTO> loadOnlyIdFieldFile(String filePath) throws Exception {
+        DataLoader<ProductOnlyIdDTO> dataLoader = new DataLoader<>();
+        UniqueValidator<ProductOnlyIdDTO> uniqueValidator = new UniqueValidator<>();
+        Map<Integer, ProductOnlyIdDTO> productMap = dataLoader.loadData(filePath,
+                DataLineParser.mapToProductOnlyIdDTO, true);
+        Function<ProductOnlyIdDTO, String> uniquenessProductIdExtractor = ProductOnlyIdDTO::getId;
+        productMap = uniqueValidator.validate(productMap, uniquenessProductIdExtractor, ProductOnlyIdDTO.class);
         return productMap;
     }
 
@@ -49,11 +49,11 @@ public class ProductServiceImpl implements ProductService {
                 .flatMap(order -> order.getProductQuantities().entrySet().stream())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        val -> 1,
+                        Map.Entry::getValue,
                         Integer::sum));
         List<String> top3ProductIds = productIdOrderCount.entrySet().stream()
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                .limit(10)
+                .limit(3)
                 .map(Map.Entry::getKey)
                 .toList();
         Map<Integer, Product> top3ProductsMap = new HashMap<>();
@@ -120,10 +120,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Map<Integer, Product> delete(String filePath, Map<Integer, Product> products,
-                                        Map<Integer, ProductToDeleteDTO> deleteProducts) {
-        for (Map.Entry<Integer, ProductToDeleteDTO> productEntry : deleteProducts.entrySet()) {
+                                        Map<Integer, ProductOnlyIdDTO> deleteProducts) {
+        for (Map.Entry<Integer, ProductOnlyIdDTO> productEntry : deleteProducts.entrySet()) {
             Integer rowIndex = productEntry.getKey();
-            ProductToDeleteDTO deleteProduct = productEntry.getValue();
+            ProductOnlyIdDTO deleteProduct = productEntry.getValue();
             String deleteProductId = deleteProduct.getId();
             Optional<Map.Entry<Integer, Product>> existingProductEntry = findProductEntryById(products,
                     deleteProductId);

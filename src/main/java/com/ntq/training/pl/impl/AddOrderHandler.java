@@ -17,6 +17,7 @@ import java.util.Map;
 
 @Slf4j
 public class AddOrderHandler extends CommonDataHandler implements IBaseFunction {
+    OrderService orderService = new OrderServiceImpl();
 
     @Override
     public void processFunction(String filePath) throws Exception {
@@ -26,7 +27,6 @@ public class AddOrderHandler extends CommonDataHandler implements IBaseFunction 
         orders = OrderConsistencyChecker.checkOrderConsistency(orders, customers, products);
         log.info("FUNCTION 4.1 - Load data from files: products.origin.csv, customers.origin.csv, orders.origin.csv successfully!");
 
-        OrderService orderService = new OrderServiceImpl();
         String loaderPath = Paths.get(filePath, FileConstants.INPUT_CSV_SUB_FOLDER_PATH, "orders" + FileConstants.NEW_CSV_FILE_EXTENSION).toString();
         Map<Integer, OrderToAddDTO> newOrders = orderService.loadAddingFile(loaderPath);
         newOrders = OrderConsistencyChecker.checkOrderToAddDTOConsistency(newOrders, customers, products);

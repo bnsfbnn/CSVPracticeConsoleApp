@@ -2,6 +2,7 @@ package com.ntq.training.bl;
 
 import com.ntq.training.dal.dto.OrderToAddDTO;
 import com.ntq.training.dal.dto.OrderToDeleteDTO;
+import com.ntq.training.dal.dto.ProductOnlyIdDTO;
 import com.ntq.training.dal.entity.Order;
 import com.ntq.training.dal.entity.Product;
 
@@ -20,4 +21,6 @@ public interface OrderService extends IDataService<Order> {
     Map<Integer, OrderToDeleteDTO> loadDeletingFile(String filePath) throws Exception;
 
     void calculateTotalAmountForOrders(Map<Integer, Order> orders, Map<Integer, Product> products);
+
+    Map<Integer, Order> searchOrderByProductId(Map<Integer, Order> orders, Map<Integer, ProductOnlyIdDTO> searchProductIds);
 }

@@ -12,6 +12,7 @@ import com.ntq.training.pl.IBaseFunction;
 import java.util.Map;
 
 public class SearchTopProductHandler extends CommonDataHandler implements IBaseFunction {
+    ProductService productService = new ProductServiceImpl();
 
     @Override
     public void processFunction(String filePath) throws Exception {
@@ -20,7 +21,6 @@ public class SearchTopProductHandler extends CommonDataHandler implements IBaseF
         Map<Integer, Order> orders = loadData("orders", filePath);
         orders = OrderConsistencyChecker.checkOrderConsistency(orders, customers, products);
 
-        ProductService productService = new ProductServiceImpl();
         Map<Integer, Product> top3MostProduct = productService.findTop3ProductHasMostOrder(products, orders);
         saveData("products", filePath, top3MostProduct);
     }

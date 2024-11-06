@@ -16,6 +16,7 @@ import java.util.Map;
 
 @Slf4j
 public class EditOrderHandler extends CommonDataHandler implements IBaseFunction {
+    OrderService orderService = new OrderServiceImpl();
 
     @Override
     public void processFunction(String filePath) throws Exception {
@@ -28,7 +29,6 @@ public class EditOrderHandler extends CommonDataHandler implements IBaseFunction
         Map<Integer, Order> updateOrders = loadData("orders", loaderPath);
         updateOrders = OrderConsistencyChecker.checkOrderConsistency(updateOrders, customers, products);
 
-        OrderService orderService = new OrderServiceImpl();
         orders = orderService.update(filePath, orders, updateOrders);
         orderService.calculateTotalAmountForOrders(orders, products);
         saveData("orders", filePath, orders);

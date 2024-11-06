@@ -12,6 +12,7 @@ public class FileConstants {
     public static final String NEW_CSV_FILE_EXTENSION = ".new.csv";
     public static final String EDIT_CSV_FILE_EXTENSION = ".edit.csv";
     public static final String DELETE_CSV_FILE_EXTENSION = ".delete.csv";
+    public static final String SEARCH_CSV_FILE_EXTENSION = ".search.csv";
 
 
     @Getter
@@ -57,12 +58,12 @@ public class FileConstants {
     }
 
     @Getter
-    public enum ProductToDeleteField {
+    public enum ProductOnlyIdField {
         PRODUCT_ID(0);
 
         private final int index;
 
-        ProductToDeleteField(int index) {
+        ProductOnlyIdField(int index) {
             this.index = index;
         }
     }

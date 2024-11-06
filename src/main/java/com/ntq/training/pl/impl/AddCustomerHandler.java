@@ -12,9 +12,10 @@ import java.util.Map;
 
 @Slf4j
 public class AddCustomerHandler implements IBaseFunction {
+    CustomerService service = new CustomerServiceImpl();
+    
     @Override
     public void processFunction(String filePath) throws Exception {
-        CustomerService service = new CustomerServiceImpl();
         String loaderPath = Paths.get(filePath, FileConstants.INPUT_CSV_SUB_FOLDER_PATH, "customers" + FileConstants.ORIGIN_CSV_FILE_EXTENSION).toString();
         Map<Integer, Customer> customers = service.loadFile(loaderPath);
 

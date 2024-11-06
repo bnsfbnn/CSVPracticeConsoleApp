@@ -17,6 +17,7 @@ import java.util.Map;
 
 @Slf4j
 public class DeleteOrderHandler extends CommonDataHandler implements IBaseFunction {
+    OrderService orderService = new OrderServiceImpl();
 
     @Override
     public void processFunction(String filePath) throws Exception {
@@ -25,7 +26,6 @@ public class DeleteOrderHandler extends CommonDataHandler implements IBaseFuncti
         Map<Integer, Order> orders = loadData("orders", filePath);
         orders = OrderConsistencyChecker.checkOrderConsistency(orders, customers, products);
 
-        OrderService orderService = new OrderServiceImpl();
         String loaderPath = Paths.get(filePath, FileConstants.INPUT_CSV_SUB_FOLDER_PATH, "orders" + FileConstants.DELETE_CSV_FILE_EXTENSION).toString();
         Map<Integer, OrderToDeleteDTO> deleleOrders = orderService.loadDeletingFile(loaderPath);
 

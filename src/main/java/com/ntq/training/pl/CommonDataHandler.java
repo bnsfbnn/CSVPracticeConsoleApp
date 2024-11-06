@@ -22,12 +22,6 @@ public class CommonDataHandler {
         return service.loadFile(loaderPath);
     }
 
-    protected <T> Map<Integer, T> loadDataTest(String type, String filePath) throws Exception {
-        IDataService<T> service = (IDataService<T>) services.get(type);
-        String loaderPath = Paths.get(filePath, FileConstants.INPUT_CSV_SUB_FOLDER_PATH, type + "test" + FileConstants.ORIGIN_CSV_FILE_EXTENSION).toString();
-        return service.loadFile(loaderPath);
-    }
-
     protected <T> void saveData(String type, String filePath, Map<Integer, T> data) throws Exception {
         IDataService<T> service = (IDataService<T>) services.get(type);
         String writerPath = Paths.get(filePath, FileConstants.OUTPUT_CSV_SUB_FOLDER_PATH, type + FileConstants.OUTPUT_CSV_FILE_EXTENSION).toString();
