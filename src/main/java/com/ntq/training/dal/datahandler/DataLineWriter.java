@@ -41,7 +41,7 @@ public class DataLineWriter {
                         .map(entry -> entry.getKey() + FileConstants.PRODUCT_QUANTITY_SEPARATOR + entry.getValue())
                         .collect(Collectors.joining(FileConstants.PRODUCT_QUANTITIES_SEPARATOR)),
                 order.getOrderDate().toString(),
-                (order.getTotalAmount().equals(BigDecimal.ZERO)) ? "Not calculate" : order.getTotalAmount().toString()
+                (order.getTotalAmount().equals(BigDecimal.ZERO)) ? "Not calculate" : String.valueOf(order.getTotalAmount().setScale(2, BigDecimal.ROUND_HALF_UP))
         );
     }
 }

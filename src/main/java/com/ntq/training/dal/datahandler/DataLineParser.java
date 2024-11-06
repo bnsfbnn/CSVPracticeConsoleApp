@@ -139,28 +139,28 @@ public class DataLineParser {
                 .build());
     };
 
-    public static BiFunction<Integer, List<String>, Optional<ProductToDeleteDTO>> mapToDeletingProduct = (rowIndex, line) -> {
+    public static BiFunction<Integer, List<String>, Optional<ProductToDeleteDTO>> mapToProductToDeleteDTO = (rowIndex, line) -> {
         String productId = line.get(FileConstants.ProductToDeleteField.PRODUCT_ID.getIndex());
         return Optional.of(ProductToDeleteDTO.builder()
                 .id(productId)
                 .build());
     };
 
-    public static BiFunction<Integer, List<String>, Optional<CustomerToDeleteDTO>> mapToDeletingCustomer = (rowIndex, line) -> {
+    public static BiFunction<Integer, List<String>, Optional<CustomerToDeleteDTO>> mapToCustomerToDeleteDTO = (rowIndex, line) -> {
         String customerPhoneNumber = line.get(FileConstants.CustomerToDeleteField.CUSTOMER_PHONE_NUMBER.getIndex());
         return Optional.of(CustomerToDeleteDTO.builder()
                 .phoneNumber(customerPhoneNumber)
                 .build());
     };
 
-    public static BiFunction<Integer, List<String>, Optional<OrderToDeleteDTO>> mapToDeletingOrder = (rowIndex, line) -> {
+    public static BiFunction<Integer, List<String>, Optional<OrderToDeleteDTO>> mapToOrderToDeleteDTO = (rowIndex, line) -> {
         String orderId = line.get(FileConstants.OrderToDeleteField.ORDER_ID.getIndex());
         return Optional.of(OrderToDeleteDTO.builder()
                 .id(orderId)
                 .build());
     };
 
-    public static BiFunction<Integer, List<String>, Optional<OrderToAddDTO>> mapToAddingOrder = (rowIndex, line) -> {
+    public static BiFunction<Integer, List<String>, Optional<OrderToAddDTO>> mapToOrderToAddDTO = (rowIndex, line) -> {
         String orderCustomerId = line.get(FileConstants.OrderToAddField.ORDER_CUSTOMER_ID.getIndex());
         String rawProductQuantities = line.get(FileConstants.OrderToAddField.ORDER_PRODUCT_QUANTITIES.getIndex());
         String raw_orderDate = line.get(FileConstants.OrderToAddField.ORDER_ORDER_DATE.getIndex());

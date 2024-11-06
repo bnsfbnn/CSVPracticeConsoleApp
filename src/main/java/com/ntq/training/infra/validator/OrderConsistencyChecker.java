@@ -12,7 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class OrderConsistencyChecker {
+public class
+OrderConsistencyChecker {
 
     public static Map<Integer, Order> checkOrderConsistency(
             Map<Integer, Order> orders,

@@ -1,5 +1,5 @@
-Id,Name,Email,PhoneNumber
-P1001,Nồi cơm điện,96.92,
+Id,Name,Price,StockAvailable
+P1000,Nồi cơm điện,96.92,839
 P1002,Bình giữ nhiệt,563.72,839
 P1003,Ốp lưng điện thoại,613.13,663
 P1004,Áo thun nam,176.04,239
