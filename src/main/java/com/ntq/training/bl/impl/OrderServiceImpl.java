@@ -44,18 +44,18 @@ public class OrderServiceImpl implements OrderService {
                 .mapToInt(id -> Integer.parseInt(id.substring(3)))
                 .max()
                 .orElse(0);
-
-        for (Map.Entry<Integer, OrderToAddDTO> entry : newOrders.entrySet()) {
-            Integer lineIndex = entry.getKey();
-            OrderToAddDTO orderToAddDTO = entry.getValue();
-            Order newOrder = new Order();
-            newOrder.setId("ORD" + (++maxOrderId));
-            newOrder.setCustomerId(orderToAddDTO.getCustomerId());
-            newOrder.setProductQuantities(orderToAddDTO.getProductQuantities());
-            newOrder.setOrderDate(orderToAddDTO.getOrderDate());
-            newOrder.setTotalAmount(orderToAddDTO.getTotalAmount());
-
-            orders.put(lineIndex, newOrder);
+        int maxRow = orders.keySet().stream()
+                .mapToInt(Integer::intValue)
+                .max()
+                .orElse(0);
+        for (OrderToAddDTO newOrder : newOrders.values()) {
+            orders.put(++maxRow, Order.builder()
+                    .id("ORD" + (++maxOrderId))
+                    .customerId(newOrder.getCustomerId())
+                    .productQuantities(newOrder.getProductQuantities())
+                    .orderDate(newOrder.getOrderDate())
+                    .totalAmount(newOrder.getTotalAmount())
+                    .build());
         }
         return orders;
     }
@@ -63,14 +63,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Map<Integer, Order> update(String filePath, Map<Integer, Order> orders, Map<Integer, Order> updateOrders) {
         for (Map.Entry<Integer, Order> entry : updateOrders.entrySet()) {
-            Integer lineIndex = entry.getKey();
+            Integer rowIndex = entry.getKey();
             Order updateOrder = entry.getValue();
-            String orderId = updateOrder.getId();
-
-            if (orders.values().stream().anyMatch(order -> order.getId().equals(orderId))) {
-                orders.replace(lineIndex, updateOrder);
+            String updateOrderId = updateOrder.getId();
+            if (orders.values().stream().anyMatch(order -> order.getId().equals(updateOrderId))) {
+                orders.replace(rowIndex, updateOrder);
             } else {
-                log.error("FUNCTION 4.3 - Order at line {} with orderId {} does not exist in current orders.", lineIndex, orderId);
+                log.error("FUNCTION 4.3 ERROR - Order at line {} with orderId {} does not exist in current orders.", rowIndex, updateOrderId);
             }
         }
         return orders;
@@ -78,13 +77,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Map<Integer, Order> delete(String filePath, Map<Integer, Order> orders, Map<Integer, OrderToDeleteDTO> deleteOrders) {
-        for (OrderToDeleteDTO deleteOrder : deleteOrders.values()) {
+        for (Map.Entry<Integer, OrderToDeleteDTO> entry : deleteOrders.entrySet()) {
+            Integer rowIndex = entry.getKey();
+            OrderToDeleteDTO deleteOrder = entry.getValue();
             String deleteOrderId = deleteOrder.getId();
             Optional<Map.Entry<Integer, Order>> existingOrderEntry = findOrderEntryById(orders, deleteOrderId);
             if (existingOrderEntry.isPresent()) {
                 orders.remove(existingOrderEntry.get().getKey());
             } else {
-                log.error("FUNCTION 4.3 ERROR - Order with orderId {} does not exist in the current order list.", deleteOrderId);
+                log.error("FUNCTION 4.3 ERROR - Order at line {} with orderId {} in the orders.delete.csv does not exist in the current order list.", rowIndex, deleteOrderId);
             }
         }
         return orders;

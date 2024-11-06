@@ -4,15 +4,19 @@ import com.ntq.training.bl.ProductService;
 import com.ntq.training.dal.datahandler.DataLoader;
 import com.ntq.training.dal.datahandler.DataWriter;
 import com.ntq.training.dal.dto.ProductToDeleteDTO;
+import com.ntq.training.dal.entity.Order;
 import com.ntq.training.dal.entity.Product;
 import com.ntq.training.dal.datahandler.DataLineParser;
 import com.ntq.training.dal.datahandler.DataLineWriter;
 import com.ntq.training.infra.validator.UniqueValidator;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class ProductServiceImpl implements ProductService {
@@ -31,10 +35,35 @@ public class ProductServiceImpl implements ProductService {
     public Map<Integer, ProductToDeleteDTO> loadDeletingFile(String filePath) throws Exception {
         DataLoader<ProductToDeleteDTO> dataLoader = new DataLoader<>();
         UniqueValidator<ProductToDeleteDTO> uniqueValidator = new UniqueValidator<>();
-        Map<Integer, ProductToDeleteDTO> productMap = dataLoader.loadData(filePath, DataLineParser.mapToProductToDeleteDTO, true);
+        Map<Integer, ProductToDeleteDTO> productMap = dataLoader.loadData(filePath,
+                DataLineParser.mapToProductToDeleteDTO, true);
         Function<ProductToDeleteDTO, String> uniquenessProductIdExtractor = ProductToDeleteDTO::getId;
         productMap = uniqueValidator.validate(productMap, uniquenessProductIdExtractor, ProductToDeleteDTO.class);
         return productMap;
+    }
+
+    @Override
+    public Map<Integer, Product> findTop3ProductHasMostOrder(Map<Integer, Product> products,
+                                                             Map<Integer, Order> orders) {
+        Map<String, Integer> productIdOrderCount = orders.values().stream()
+                .flatMap(order -> order.getProductQuantities().entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        val -> 1,
+                        Integer::sum));
+        List<String> top3ProductIds = productIdOrderCount.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10)
+                .map(Map.Entry::getKey)
+                .toList();
+        Map<Integer, Product> top3ProductsMap = new HashMap<>();
+        for (String productId : top3ProductIds) {
+            products.values().stream()
+                    .filter(product -> product.getId().equals(productId))
+                    .findFirst()
+                    .ifPresent(product -> top3ProductsMap.put(product.getId().hashCode(), product));
+        }
+        return top3ProductsMap;
     }
 
     @Override
@@ -44,55 +73,73 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Map<Integer, Product> insert(String filePath, Map<Integer, Product> products, Map<Integer, Product> newProducts) {
-        int maxLine = products.keySet().stream()
+    public Map<Integer, Product> insert(String filePath, Map<Integer, Product> products,
+                                        Map<Integer, Product> newProducts) {
+        int maxRow = products.keySet().stream()
                 .mapToInt(Integer::intValue)
                 .max()
                 .orElse(0);
-        for (Product newProduct : newProducts.values()) {
+        for (Map.Entry<Integer, Product> productEntry : newProducts.entrySet()) {
+            Integer rowIndex = productEntry.getKey();
+            Product newProduct = productEntry.getValue();
             String newProductId = newProduct.getId();
             Optional<Map.Entry<Integer, Product>> existingProductEntry = findProductEntryById(products, newProductId);
             if (existingProductEntry.isPresent()) {
-                log.error("FUNCTION 2.1 ERROR - Product with ID {} already exists and will not be added again.", newProductId);
+                log.error(
+                        "FUNCTION 2.1 ERROR - Product at row {} with ID {} in the products.new.csv file already exists and will not be added again.",
+                        rowIndex, newProductId);
             } else {
-                products.put(++maxLine, newProduct);
+                products.put(++maxRow, newProduct);
             }
         }
         return products;
     }
 
     @Override
-    public Map<Integer, Product> update(String filePath, Map<Integer, Product> products, Map<Integer, Product> updateProducts) {
-        for (Product updateProduct : updateProducts.values()) {
+    public Map<Integer, Product> update(String filePath, Map<Integer, Product> products,
+                                        Map<Integer, Product> updateProducts) {
+        for (Map.Entry<Integer, Product> productEntry : updateProducts.entrySet()) {
+            Integer rowIndex = productEntry.getKey();
+            Product updateProduct = productEntry.getValue();
             String updateProductId = updateProduct.getId();
-            Optional<Map.Entry<Integer, Product>> existingProductEntry = findProductEntryById(products, updateProductId);
+            Optional<Map.Entry<Integer, Product>> existingProductEntry = findProductEntryById(products,
+                    updateProductId);
             if (existingProductEntry.isPresent()) {
                 Product existingProduct = existingProductEntry.get().getValue();
                 existingProduct.setName(updateProduct.getName());
                 existingProduct.setPrice(updateProduct.getPrice());
                 existingProduct.setStockQuantity(updateProduct.getStockQuantity());
             } else {
-                log.error("FUNCTION 2.2 ERROR - Product with ID {} does not exist and cannot be updated.", updateProductId);
+                log.error(
+                        "FUNCTION 2.2 ERROR - Product at row {} with ID {} in the products.edit.csv file does not exist and cannot be updated.",
+                        rowIndex, updateProductId);
             }
         }
         return products;
     }
 
     @Override
-    public Map<Integer, Product> delete(String filePath, Map<Integer, Product> products, Map<Integer, ProductToDeleteDTO> deleteProducts) {
-        for (ProductToDeleteDTO deleteProduct : deleteProducts.values()) {
+    public Map<Integer, Product> delete(String filePath, Map<Integer, Product> products,
+                                        Map<Integer, ProductToDeleteDTO> deleteProducts) {
+        for (Map.Entry<Integer, ProductToDeleteDTO> productEntry : deleteProducts.entrySet()) {
+            Integer rowIndex = productEntry.getKey();
+            ProductToDeleteDTO deleteProduct = productEntry.getValue();
             String deleteProductId = deleteProduct.getId();
-            Optional<Map.Entry<Integer, Product>> existingProductEntry = findProductEntryById(products, deleteProductId);
+            Optional<Map.Entry<Integer, Product>> existingProductEntry = findProductEntryById(products,
+                    deleteProductId);
             if (existingProductEntry.isPresent()) {
                 products.remove(existingProductEntry.get().getKey());
             } else {
-                log.error("FUNCTION 2.3 ERROR - Product with ID {} does not exist and cannot be deleted.", deleteProductId);
+                log.error(
+                        "FUNCTION 2.3 ERROR - Product at row {} with ID {} in the products.delete.csv file does not exist and cannot be deleted.",
+                        rowIndex, deleteProductId);
             }
         }
         return products;
     }
 
-    private Optional<Map.Entry<Integer, Product>> findProductEntryById(Map<Integer, Product> products, String productId) {
+    private Optional<Map.Entry<Integer, Product>> findProductEntryById(Map<Integer, Product> products,
+                                                                       String productId) {
         return products.entrySet().stream()
                 .filter(e -> e.getValue().getId().equals(productId))
                 .findFirst();

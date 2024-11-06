@@ -49,51 +49,66 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Map<Integer, Customer> insert(String filePath, Map<Integer, Customer> customers, Map<Integer, Customer> newCustomers) {
-        int maxLine = customers.keySet().stream()
+        int maxRow = customers.keySet().stream()
                 .mapToInt(Integer::intValue)
                 .max()
                 .orElse(0);
-        for (Customer newCustomer : newCustomers.values()) {
+        for (Map.Entry<Integer, Customer> customerEntry : newCustomers.entrySet()) {
+            Integer rowIndex = customerEntry.getKey();
+            Customer newCustomer = customerEntry.getValue();
             String newCustomerPhoneNumber = newCustomer.getPhoneNumber();
             Optional<Map.Entry<Integer, Customer>> existingCustomerEntry = findCustomerEntryByPhoneNumber(customers, newCustomerPhoneNumber);
-            if (existingCustomerEntry.isPresent()) {
-                Customer existingCustomer = customers.get(existingCustomerEntry.get().getKey());
-                existingCustomer.setId(newCustomer.getId());
-                existingCustomer.setName(newCustomer.getName());
-                existingCustomer.setEmail(newCustomer.getEmail());
-            } else {
-                customers.put(++maxLine, newCustomer);
+
+            if (existingCustomerEntry.isEmpty()) {
+                customers.put(++maxRow, newCustomer);
+                continue;
             }
+            Customer existingCustomer = existingCustomerEntry.get().getValue();
+            if (isExistIdAndEmail(newCustomers, existingCustomer)) {
+                log.error("FUNCTION 3.2 ERROR - Customer at line {} with phone number {} in the customers.new.csv file is invalid in other fields.", rowIndex, newCustomerPhoneNumber);
+                continue;
+            }
+            existingCustomer.setId(newCustomer.getId());
+            existingCustomer.setName(newCustomer.getName());
+            existingCustomer.setEmail(newCustomer.getEmail());
         }
         return customers;
     }
 
     @Override
     public Map<Integer, Customer> update(String filePath, Map<Integer, Customer> customers, Map<Integer, Customer> updateCustomers) {
-        for (Customer updateCustomer : updateCustomers.values()) {
+        for (Map.Entry<Integer, Customer> customerEntry : updateCustomers.entrySet()) {
+            Integer rowIndex = customerEntry.getKey();
+            Customer updateCustomer = customerEntry.getValue();
             String updateCustomerPhoneNumber = updateCustomer.getPhoneNumber();
             Optional<Map.Entry<Integer, Customer>> existingCustomerEntry = findCustomerEntryByPhoneNumber(customers, updateCustomerPhoneNumber);
-            if (existingCustomerEntry.isPresent()) {
-                Customer existingCustomer = customers.get(existingCustomerEntry.get().getKey());
-                existingCustomer.setId(updateCustomer.getId());
-                existingCustomer.setName(updateCustomer.getName());
-                existingCustomer.setEmail(updateCustomer.getEmail());
-            } else {
-                log.error("FUNCTION 3.3 ERROR - Customer with phone number {} does not exist and cannot be updated.", updateCustomerPhoneNumber);
+            if (existingCustomerEntry.isEmpty()) {
+                log.error("FUNCTION 3.3 ERROR - Customer at line {} with phone number {} in the customers.edit.csv file does not exist and cannot be updated.", rowIndex, updateCustomerPhoneNumber);
+                continue;
             }
+            Customer existingCustomer = existingCustomerEntry.get().getValue();
+            if (isExistIdAndEmail(updateCustomers, existingCustomer)) {
+                log.error("FUNCTION 3.3 ERROR - Customer at line {} with phone number {} in the customers.edit.csv file is invalid in other fields.", rowIndex, updateCustomerPhoneNumber);
+                continue;
+            }
+            existingCustomer.setId(updateCustomer.getId());
+            existingCustomer.setName(updateCustomer.getName());
+            existingCustomer.setEmail(updateCustomer.getEmail());
         }
         return customers;
     }
 
     @Override
     public Map<Integer, Customer> delete(String filePath, Map<Integer, Customer> customers, Map<Integer, CustomerToDeleteDTO> deleteCustomers) {
-        for (CustomerToDeleteDTO deleteCustomer : deleteCustomers.values()) {
+        for (Map.Entry<Integer, CustomerToDeleteDTO> customerEntry : deleteCustomers.entrySet()) {
+            Integer rowIndex = customerEntry.getKey();
+            CustomerToDeleteDTO deleteCustomer = customerEntry.getValue();
             String deleteCustomerPhoneNumber = deleteCustomer.getPhoneNumber();
             Optional<Map.Entry<Integer, Customer>> existingCustomerEntry = findCustomerEntryByPhoneNumber(customers, deleteCustomerPhoneNumber);
             if (existingCustomerEntry.isPresent()) {
                 customers.remove(existingCustomerEntry.get().getKey());
             } else {
-                log.error("FUNCTION 3.1 ERROR - Customer with phone number {} does not exist and cannot be deleted.", deleteCustomerPhoneNumber);
+                log.error("FUNCTION 3.1 ERROR - Customer at line {} with phone number {} in the customers.delete.csv file does not exist and cannot be deleted.", rowIndex, deleteCustomerPhoneNumber);
             }
         }
         return customers;
@@ -103,5 +118,13 @@ public class CustomerServiceImpl implements CustomerService {
         return customers.entrySet().stream()
                 .filter(entry -> entry.getValue().getPhoneNumber().equals(customerPhoneNumber))
                 .findFirst();
+    }
+
+    private boolean isExistIdAndEmail(Map<Integer, Customer> customers, Customer customer) {
+        return customers.entrySet().stream()
+                .anyMatch(entry ->
+                        customer.getEmail().equals(entry.getValue().getEmail()) ||
+                                customer.getId().equals(entry.getValue().getId())
+                );
     }
 }
