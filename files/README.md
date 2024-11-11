@@ -59,53 +59,53 @@ Quy trình validate file được thực hiện qua 4 giai đoạn:
       sách đối tượng phụ thuộc vào các danh sách đối tượng khác (vd: `Order` yêu cầu `customerId` và `productId` phải
       tồn tại).
 
-products.origin.csv
-
-| Product ID | Product Name | Price  | Quantity |
-|------------|--------------|--------|----------|
-|            | Túi LV      | 3000.0 | 567      |
-| P1001      |              | 3000.0 | 567      |
-| P1001      | Túi LV      |        | 567      |
-| P1001      | Túi LV      | 3000.0 |          |
-|            | Túi LV      | 3000.0 | 567      |
-| P1000      | Túi xách da | 981.0  | 826      |
-| P1001      | Túi xách da | -1     | 826      |
-| P1001      | Túi xách da | 1000   | 826.00   |
-| P1001      | Túi xách da | 1000   | -826     |
-| P1001      | Túi xách da | 0      | 826      |
-|            |              | 3000.0 | 567      |
-
-customers.origin.csv
-
-| Customer ID | Customer Name     | Email                   | Phone Number  |
-|-------------|-------------------|-------------------------|----------------|
-|             | Nguyễn Thanh Tùng  | w4q6d333@gmail.com      | 0328060333     |
-|             |                   | w4q6d333@gmail.com      | 0328060333     |
-| CUS5000     |                   | w4q6d111@gmail.com      | 0328060111     |
-| CUS5000     | Nguyễn Thanh Tùng  |                         | 0328060111     |
-| CUS5000     | Nguyễn Thanh Tùng  | w4q6d111@gmail.com      |                |
-| CUS5000     | Nguyễn Hạnh Lan    | w4q6d333@gmail.com      | 0328060333     |
-| CUS5000     | Nguyễn Hạnh Lan    | w4q6d321@@gmail.vn      | 03280605233    |
-| CUS5000     | Nguyễn Hạnh Lan    | w4q6d321@gmail.com      | 03280605233    |
-| CUS5000     | Nguyễn Hạnh Lan    | w4q6d321gmail.com       | 03280605233    |
-| CUS5000     | Nguyễn Hạnh Lan    | w4q6d321@gmail.com.vn   | 0329060523     |
-| CUS5001     | Nguyễn Hạnh Lan    | w4q6d321@gmail.com.vn   | 0328060523     |
-| CUS5001     | Nguyễn Hạnh Lan    | w4q6d321@gmail.com      | 0329060524     |
-
-orders.origin.csv
-
-| Order ID | Customer ID | Product Quantities         | Order Date                       |
-|----------|-------------|-----------------------------|----------------------------------|
-|          | CUS1746     | P0600:47                    | 2024-10-06T23:38:36.049569+07:07 |
-| ORD4999  |             | P0600:47                    | 2024-10-06T23:38:36.049569+07:07 |
-| ORD4999  | CUS1746     |                             | 2024-10-06T23:38:36.049569+07:07 |
-| ORD4999  | CUS1746     | P0600:47                    |                                  |
-|          |             | P0600:47                    | 2024-10-06T23:38:36.049569+07:07 |
-|          |             | P0600:47                    |                                  |
-| ORD4999  | CUS1746     | P0600:-47;P0500:57         | 2024-10-06T23:38:36.049569+07:07 |
-| ORD4999  | CUS1746     | P0600:a;P0500:b            | 2024-10-06T23:38:36.049569+07:07 |
-| ORD4999  | CUS1746     | P0600;47:P0500;57          | 2024-10-06T23:38:36.049569+07:07 |
-| ORD4999  | CUS1746     | P0600:40;P0600:40          | 2024-10-06T23:38:36.049569+07:07 |
-| ORD5000  | CUS9999     | P0600:40;P0500:40          | 2024-10-06T23:38:36.049569+07:07 |
-| ORD5000  | CUS1222     | P9999:40;P9998:40          | 2024-10-06T23:38:36.049569+07:07 |
+## Dữ liệu kiểm tra validate
+`products.orgin.csv`
+```csv
+Id,Name,Price,StockAvailable
+,Túi LV,3000.0,567
+P1001,,3000.0,567
+P1001,Túi LV,,567
+P1001,Túi LV,3000.0,
+Túi LV,3000.0,567
+P1000,Túi xách da,981.0,826
+P1001,Túi xách da,-1,826
+P1001,Túi xách da,1000,826.00
+P1001,Túi xách da,1000,-826
+P1001,Túi xách da,0,826
+,,3000.0,567
+```
+`customers.orgin.csv`
+```csv
+Id,Name,Email,PhoneNumber
+,Nguyễn Thanh Tùng,w4q6d333@gmail.com,0328060333
+,,w4q6d333@gmail.com,0328060333
+CUS5000,,w4q6d111@gmail.com,0328060111
+CUS5000,Nguyễn Thanh Tùng,,0328060111
+CUS5000,Nguyễn Thanh Tùng,w4q6d111@gmail.com,
+CUS5000,Nguyễn Hạnh Lan,w4q6d333@gmail.com,0328060333
+CUS5000,Nguyễn Hạnh Lan,w4q6d321@@gmail.vn,03280605233
+CUS5000,Nguyễn Hạnh Lan,w4q6d321@gmail.com,03280605233
+CUS5000,Nguyễn Hạnh Lan,w4q6d321gmail.com,03280605233
+CUS5000,Nguyễn Hạnh Lan,w4q6d321@gmail.com.vn,0329060523
+CUS5001,Nguyễn Hạnh Lan,w4q6d321@gmail.com.vn,0328060523
+CUS5001,Nguyễn Hạnh Lan,w4q6d321@gmail.com,0329060524
+```
+`orders.orgin.csv`
+```csv
+Id,CustomerID,ProductQuantities,OrderDate
+,CUS1746,P0600:47,2024-10-06T23:38:36.049569+07:07
+ORD4999,,P0600:47,2024-10-06T23:38:36.049569+07:07
+ORD4999,CUS1746,,2024-10-06T23:38:36.049569+07:07
+ORD4999,CUS1746,P0600:47,
+,,P0600:47,2024-10-06T23:38:36.049569+07:07
+,P0600:47,2024-10-06T23:38:36.049569+07:07
+,P0600:47,
+ORD4999,CUS1746,P0600:-47;P0500:57,2024-10-06T23:38:36.049569+07:07
+ORD4999,CUS1746,P0600:a;P0500:b,2024-10-06T23:38:36.049569+07:07
+ORD4999,CUS1746,P0600;47:P0500;57,2024-10-06T23:38:36.049569+07:07
+ORD4999,CUS1746,P0600:40;P0600:40,2024-10-06T23:38:36.049569+07:07
+ORD5000,CUS9999,P0600:40;P0500:40,2024-10-06T23:38:36.049569+07:07
+ORD5000,CUS1222,P9999:40;P9998:40,2024-10-06T23:38:36.049569+07:07
+```
 
