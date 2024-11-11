@@ -15,7 +15,7 @@ public class App {
         }
         String functionCode = args[0];
         String filePath = args[1];
-
+        System.setProperty("LOG_FILE_PATH", filePath);
         Map<String, IBaseFunction> functionMap = Map.ofEntries(
                 Map.entry("1", new LoadDataHandler()),
                 Map.entry("2.1", new AddProductHandler()),
@@ -30,7 +30,6 @@ public class App {
                 Map.entry("5.1", new SearchTopProductHandler()),
                 Map.entry("5.2", new SearchOrdersByProductHandler())
         );
-
         IBaseFunction baseFunction = functionMap.get(functionCode);
         if (baseFunction != null) {
             try {

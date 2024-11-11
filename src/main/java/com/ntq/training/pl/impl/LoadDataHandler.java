@@ -33,5 +33,4 @@ public class LoadDataHandler extends CommonDataHandler implements IBaseFunction 
         orderService.calculateTotalAmountForOrders(orders, products);
         saveData("orders", filePath, orders);
     }
-
 }

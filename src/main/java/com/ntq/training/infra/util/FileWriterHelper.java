@@ -3,16 +3,15 @@ package com.ntq.training.infra.util;
 import com.opencsv.CSVWriter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Slf4j
 public class FileWriterHelper {
     public void writeCsvFile(String filePath, List<String> headers, List<List<String>> records) throws IOException {
         try (
-                FileWriter writer = new FileWriter(filePath);
+                OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.UTF_8);
                 CSVWriter csvWriter = new CSVWriter(writer, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)
         ) {
             csvWriter.writeNext(headers.toArray(new String[0]));

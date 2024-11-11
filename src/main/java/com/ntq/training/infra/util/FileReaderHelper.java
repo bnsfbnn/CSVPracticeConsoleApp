@@ -5,9 +5,8 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -17,7 +16,7 @@ public class FileReaderHelper {
 
     public Map<Integer, List<String>> readCsvFile(String filePath, Boolean isValidRowCheck) throws IOException, CsvException {
         Map<Integer, List<String>> records = new HashMap<>();
-        try (CSVReader csvReader = new CSVReader(new FileReader(filePath))) {
+        try (CSVReader csvReader = new CSVReader(new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8))) {
             String[] values;
             String[] header = csvReader.readNext();
             int rowIndex = 1;
